@@ -15,6 +15,7 @@ const Typography = Loadable(lazy(() => import('pages/components-overview/Typogra
 const Color = Loadable(lazy(() => import('pages/components-overview/Color')));
 const Shadow = Loadable(lazy(() => import('pages/components-overview/Shadow')));
 const AntIcons = Loadable(lazy(() => import('pages/components-overview/AntIcons')));
+const AuthLogin = Loadable(lazy(() => import('pages/authentication/Login')));
 
 // ==============================|| MAIN ROUTING ||============================== //
 
@@ -24,7 +25,7 @@ const MainRoutes = {
   children: [
     {
       path: '/',
-      element: <DashboardDefault />
+      element: <AuthLogin />
     },
     {
       path: 'color',
@@ -54,7 +55,8 @@ const MainRoutes = {
     {
       path: 'icons/ant',
       element: <AntIcons />
-    }
+    },
+    
   ]
 };
 

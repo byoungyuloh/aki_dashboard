@@ -1,340 +1,319 @@
-import { useState } from 'react';
+// import { useState } from 'react';
 
 // material-ui
 import {
-  Avatar,
-  AvatarGroup,
+  // Avatar,
+  // AvatarGroup,
   Box,
-  Button,
+  // Button,
   Grid,
-  List,
-  ListItemAvatar,
-  ListItemButton,
-  ListItemSecondaryAction,
-  ListItemText,
-  MenuItem,
+  // List,
+  // ListItemAvatar,
+  // ListItemButton,
+  // ListItemSecondaryAction,
+  // ListItemText,
+  // MenuItem,
   Stack,
-  TextField,
+  // TextField,
   Typography
 } from '@mui/material';
 
 // project import
-import OrdersTable from './OrdersTable';
-import IncomeAreaChart from './IncomeAreaChart';
-import MonthlyBarChart from './MonthlyBarChart';
-import ReportAreaChart from './ReportAreaChart';
-import SalesColumnChart from './SalesColumnChart';
+// import OrdersTable from './OrdersTable';
+// import IncomeAreaChart from './IncomeAreaChart';
+// import MonthlyBarChart from './MonthlyBarChart';
+// import ReportAreaChart from './ReportAreaChart';
+// import SalesColumnChart from './SalesColumnChart';
 import MainCard from 'components/MainCard';
 import AnalyticEcommerce from 'components/cards/statistics/AnalyticEcommerce';
 
 // assets
-import { GiftOutlined, MessageOutlined, SettingOutlined } from '@ant-design/icons';
-import avatar1 from 'assets/images/users/avatar-1.png';
-import avatar2 from 'assets/images/users/avatar-2.png';
-import avatar3 from 'assets/images/users/avatar-3.png';
-import avatar4 from 'assets/images/users/avatar-4.png';
-
+// import { GiftOutlined, MessageOutlined, SettingOutlined } from '@ant-design/icons';
+// import avatar1 from 'assets/images/users/avatar-1.png';
+// import avatar2 from 'assets/images/users/avatar-2.png';
+// import avatar3 from 'assets/images/users/avatar-3.png';
+// import avatar4 from 'assets/images/users/avatar-4.png';
+import { Chart } from 'react-google-charts';
+import DataGridExample from './DataGridExample';
+// import Example from './Example';
 // avatar style
-const avatarSX = {
-  width: 36,
-  height: 36,
-  fontSize: '1rem'
-};
+// const avatarSX = {
+//   width: 36,
+//   height: 36,
+//   fontSize: '1rem'
+// };
 
-// action style
-const actionSX = {
-  mt: 0.75,
-  ml: 1,
-  top: 'auto',
-  right: 'auto',
-  alignSelf: 'flex-start',
-  transform: 'none'
-};
+// // action style
+// const actionSX = {
+//   mt: 0.75,
+//   ml: 1,
+//   top: 'auto',
+//   right: 'auto',
+//   alignSelf: 'flex-start',
+//   transform: 'none'
+// };
 
-// sales report status
-const status = [
-  {
-    value: 'today',
-    label: 'Today'
-  },
-  {
-    value: 'month',
-    label: 'This Month'
-  },
-  {
-    value: 'year',
-    label: 'This Year'
-  }
+// sankey chart data
+const data = [
+  ['From', 'To', 'population'],
+  ['TazoPERAN Inj',       '1차생존',19500],
+  ['Metronidazole Inj',   '1차생존',12750],
+  ['Meropen Inj',         '1차생존',16750],
+  ['TazoPERAN Inj',       '1차사망',500],
+  ['Metronidazole Inj',   '1차사망',250],
+  ['Meropen Inj',         '1차사망',250],
+  ['1차생존',             'Steroid',19000],
+  ['1차생존',             'TazoPERAN Inj1',10000],
+  ['1차생존',             'Metronidazole Inj1', 10000],
+  ['1차생존',             'Meropen Inj1',10000],
+  // total : 49,000
+  // drug : 44000 + death 5000
+  ['Steroid',             '2차생존',17000],
+  ['TazoPERAN Inj1',      '2차생존',8000],
+  ['Metronidazole Inj1',  '2차생존',8000],
+  ['Meropen Inj1',        '2차생존',8000],
+  ['Steroid',             '2차사망',2000],
+  ['TazoPERAN Inj1',      '2차사망',2000],
+  ['Metronidazole Inj1',  '2차사망',2000],
+  ['Meropen Inj1',        '2차사망',2000],
+  //
+  ['2차생존',              'Steroid1',17000],
+  ['2차생존',              'TazoPERAN Inj2',8000],
+  ['2차생존',              'Metronidazole Inj2',8000],
+  ['2차생존',              'Meropen Inj2',8000],
+  ['Steroid1',            '사망',1000],
+  ['TazoPERAN Inj2',      '사망',1000],
+  ['Metronidazole Inj2',  '사망',1000],
+  ['Meropen Inj2',        '사망',1000],
+  ['Steroid1',            '3차생존',16000],
+  ['TazoPERAN Inj2',      '3차생존',7000],
+  ['Metronidazole Inj2',  '3차생존',7000],
+  ['Meropen Inj2',        '3차생존',7000],
+  ['1차사망',               '2차미조치',1000],
+  ['2차미조치',             '2차사망',2000],
+  ['2차사망',               '3차미조치',10000],
+  ['3차미조치',             '사망',10000]
 ];
+// sankey chart draw option
+const options = {
+  width: '90%',
+  height: '100%',
+  sankey: {
+    node: {
+      colors: ['#a6cee3', '#1f78b4', '#b2df8a', '#33a02c', '#fb9a99', '#e31a1c'],
+    },
+  },
+};
+// servival rate graph text
+const rawData = [
+  [0, 95, 43.33333333, 31.73913043, 25.45454545, 15],
+  [1, 80, 37.5, 25.15151515, 19.0625, 11.57142857],
+  [2, 72.5, 34, 21.62790698, 15.71428571, 9.666666667],
+  [3, 68, 31.66666667, 19.43396226, 13.65384615, 8.454545455],
+  [4, 65, 30, 17.93650794, 12.25806452, 7.615384615],
+  [5, 62.85714286, 28.75, 16.84931507, 11.25, 7],
+  [6, 61.25, 27.77777778, 16.02409639, 10.48780488, 6.529411765],
+  [7, 60, 27, 15.37634409, 9.891304348, 6.157894737],
+  [8, 59, 26.36363636, 14.85436893, 9.411764706, 5.857142857],
+  [9, 58.18181818, 25.83333333, 14.42477876, 9.017857143, 5.608695652],
+  [10, 57.5, 25.38461538, 14.06504065, 8.68852459, 5.4],
+  [11, 56.92307692, 25, 13.7593985, 8.409090909, 5.222222222],
+  [12, 56.42857143, 24.66666667, 13.4965035, 8.169014085, 5.068965517],
+  [13, 56, 24.375, 13.26797386, 7.960526316, 4.935483871],
+  [14, 55.625, 24.11764706, 13.06748466, 7.777777778, 4.818181818],
+  [15, 55.29411765, 23.88888889, 12.89017341, 7.61627907, 4.714285714],
+  [16, 55, 23.68421053, 12.73224044, 7.472527473, 4.621621622],
+  [17, 54.73684211, 23.5, 12.59067358, 7.34375, 4.538461538],
+  [18, 54.5, 23.33333333, 12.46305419, 7.227722772, 4.463414634],
+  [19, 54.28571429, 23.18181818, 12.34741784, 7.122641509, 4.395348837],
+  [20, 54.09090909, 23.04347826, 12.24215247, 7.027027027, 4.333333333],
+  [21, 53.91304348, 22.91666667, 12.14592275, 6.939655172, 4.276595745],
+  [22, 53.75, 22.8, 12.05761317, 6.859504132, 4.224489796],
+  [23, 53.6, 22.69230769, 11.97628458, 6.785714286, 4.176470588],
+  [24, 53.46153846, 22.59259259, 11.90114068, 6.717557252, 4.132075472],
+  [25, 53.33333333, 22.5, 11.83150183, 6.654411765, 4.090909091],
+  [26, 53.21428571, 22.4137931, 11.76678445, 6.595744681, 4.052631579],
+  [27, 53.10344828, 22.33333333, 11.70648464, 6.54109589, 4.016949153],
+  [28, 53, 22.25806452, 11.65016502, 6.490066225, 3.983606557],
+  [29, 52.90322581, 22.1875, 11.59744409, 6.442307692, 3.952380952],
+  [30, 52.8125, 22.12121212, 11.54798762, 6.397515528, 3.923076923],
+  [31, 52.72727273, 22.05882353, 11.5015015, 6.355421687, 3.895522388],
+  [32, 52.64705882, 22, 11.45772595, 6.315789474, 3.869565217],
+  [33, 52.57142857, 21.94444444, 11.41643059, 6.278409091, 3.845070423],
+  [34, 52.5, 21.89189189, 11.37741047, 6.243093923, 3.821917808],
+  [35, 52.43243243, 21.84210526, 11.34048257, 6.209677419, 3.8],
+  [36, 52.36842105, 21.79487179, 11.30548303, 6.178010471, 3.779220779],
+  [37, 52.30769231, 21.75, 11.27226463, 6.147959184, 3.759493671],
+  [38, 52.25, 21.70731707, 11.24069479, 6.119402985, 3.740740741],
+  [39, 52.19512195, 21.66666667, 11.21065375, 6.09223301, 3.722891566],
+  [40, 52.14285714, 21.62790698, 11.1820331, 6.066350711, 3.705882353],
+  [41, 52.09302326, 21.59090909, 11.15473441, 6.041666667, 3.689655172],
+  [42, 52.04545455, 21.55555556, 11.12866817, 6.018099548, 3.674157303],
+  [43, 52, 21.52173913, 11.10375276, 5.995575221, 3.659340659],
+  [44, 51.95652174, 21.4893617, 11.07991361, 5.974025974, 3.64516129],
+  [45, 51.91489362, 21.45833333, 11.05708245, 5.953389831, 3.631578947],
+  [46, 51.875, 21.42857143, 11.03519669, 5.933609959, 3.618556701],
+  [47, 51.83673469, 21.4, 11.01419878, 5.914634146, 3.606060606],
+  [48, 51.8, 21.37254902, 10.99403579, 5.896414343, 3.594059406],
+  [49, 51.76470588, 21.34615385, 10.97465887, 5.87890625, 3.582524272],
+  [50, 51.73076923, 21.32075472, 10.95602294, 5.862068966, 3.571428571],
+  [51, 51.69811321, 21.2962963, 10.9380863, 5.845864662, 3.560747664],
+  [52, 51.66666667, 21.27272727, 10.92081031, 5.830258303, 3.550458716],
+  [53, 51.63636364, 21.25, 10.90415913, 5.815217391, 3.540540541],
+  [54, 51.60714286, 21.22807018, 10.88809947, 5.800711744, 3.530973451],
+  [55, 51.57894737, 21.20689655, 10.87260035, 5.786713287, 3.52173913],
+  [56, 51.55172414, 21.18644068, 10.85763293, 5.773195876, 3.512820513],
+  [57, 51.52542373, 21.16666667, 10.84317032, 5.760135135, 3.504201681],
+  [58, 51.5, 21.14754098, 10.8291874, 5.747508306, 3.495867769],
+  [59, 51.47540984, 21.12903226, 10.81566069, 5.735294118, 3.487804878],
+  [60, 51.4516129, 21.11111111, 10.80256822, 5.723472669, 3.48],
+  [61, 51.42857143, 21.09375, 10.78988942, 5.712025316, 3.472440945],
+  [62, 51.40625, 21.07692308, 10.77760498, 5.700934579, 3.465116279],
+  [63, 51.38461538, 21.06060606, 10.76569678, 5.690184049, 3.458015267],
+  [64, 51.36363636, 21.04477612, 10.75414781, 5.679758308, 3.45112782],
+  [65, 51.34328358, 21.02941176, 10.74294205, 5.669642857, 3.444444444],
+  [66, 51.32352941, 21.01449275, 10.73206442, 5.659824047, 3.437956204],
+  [67, 51.30434783, 21, 10.72150072, 5.650289017, 3.431654676],
+  [68, 51.28571429, 20.98591549, 10.71123755, 5.641025641, 3.425531915],
+  [69, 51.26760563, 20.97222222, 10.70126227, 5.632022472, 3.41958042],
+  [70, 51.25, 20.95890411, 10.69156293, 5.623268698, 3.413793103],
+  [71, 51.23287671, 20.94594595, 10.68212824, 5.614754098, 3.408163265],
+  [72, 51.21621622, 20.93333333, 10.67294751, 5.606469003, 3.402684564],
+  [73, 51.2, 20.92105263, 10.66401062, 5.598404255, 3.397350993],
+  [74, 51.18421053, 20.90909091, 10.65530799, 5.590551181, 3.392156863],
+  [75, 51.16883117, 20.8974359, 10.64683053, 5.582901554, 3.387096774],
+  [76, 51.15384615, 20.88607595, 10.6385696, 5.57544757, 3.382165605],
+  [77, 51.13924051, 20.875, 10.63051702, 5.568181818, 3.377358491],
+  [78, 51.125, 20.86419753, 10.62266501, 5.561097257, 3.372670807],
+  [79, 51.11111111, 20.85365854, 10.61500615, 5.554187192, 3.36809816],
+  [80, 51.09756098, 20.84337349, 10.60753341, 5.547445255, 3.363636364],
+  [81, 51.08433735, 20.83333333, 10.6002401, 5.540865385, 3.359281437],
+  [82, 51.07142857, 20.82352941, 10.59311981, 5.534441805, 3.355029586],
+  [83, 51.05882353, 20.81395349, 10.58616647, 5.528169014, 3.350877193],
+  [84, 51.04651163, 20.8045977, 10.57937428, 5.522041763, 3.346820809],
+  [85, 51.03448276, 20.79545455, 10.57273769, 5.516055046, 3.342857143],
+  [86, 51.02272727, 20.78651685, 10.56625142, 5.510204082, 3.338983051],
+  [87, 51.01123596, 20.77777778, 10.55991041, 5.504484305, 3.335195531],
+  [88, 51, 20.76923077, 10.55370986, 5.498891353, 3.331491713],
+  [89, 50.98901099, 20.76086957, 10.54764513, 5.493421053, 3.327868852],
+  [90, 50.97826087, 20.75268817, 10.54171181, 5.488069414, 3.324324324],
+  [91, 50.96774194, 20.74468085, 10.53590568, 5.482832618, 3.320855615],
+  [92, 50.95744681, 20.73684211, 10.53022269, 5.477707006, 3.317460317],
+  [93, 50.94736842, 20.72916667, 10.52465897, 5.472689076, 3.314136126],
+  [94, 50.9375, 20.72164948, 10.5192108, 5.467775468, 3.310880829],
+  [95, 50.92783505, 20.71428571, 10.51387461, 5.462962963, 3.307692308],
+  [96, 50.91836735, 20.70707071, 10.508647, 5.458248473, 3.304568528],
+  [97, 50.90909091, 20.7, 10.50352467, 5.453629032, 3.301507538],
+  [98, 50.9, 20.69306931, 10.49850449, 5.449101796, 3.298507463],
+  [99, 50.89108911, 20.68627451, 10.49358342, 5.444664032, 3.295566502],
+  [100, 50.88235294, 20.67961165, 10.48875855, 5.440313112, 3.292682927],
+  [101, 50.87378641, 20.67307692, 10.48402711, 5.436046512, 3.289855072],
+  [102, 50.86538462, 20.66666667, 10.47938639, 5.431861804, 3.28708134],
+  [103, 50.85714286, 20.66037736, 10.47483381, 5.427756654, 3.28436019],
+  [104, 50.8490566, 20.65420561, 10.47036689, 5.423728814, 3.281690141],
+  [105, 50.8411215, 20.64814815, 10.46598322, 5.419776119, 3.279069767],
+  [106, 50.83333333, 20.64220183, 10.46168052, 5.415896488, 3.276497696],
+  [107, 50.82568807, 20.63636364, 10.45745654, 5.412087912, 3.273972603],
+  [108, 50.81818182, 20.63063063, 10.45330916, 5.408348457, 3.271493213],
+  [109, 50.81081081, 20.625, 10.4492363, 5.404676259, 3.269058296],
+  [110, 50.80357143, 20.61946903, 10.44523598, 5.401069519, 3.266666667],
+]; 
+// line chart data
+const line_data = [
+  ['일수', '치료경로 1', '치료경로 2', '치료경로 3', '치료경로 4', '치료경로 5'],
+  ...rawData,
+]
+// line chart option
+const line_options = {
+  // title: '생존율 데이터',
+  curveType: 'function', // 선 스무딩 설정
+  legend: { position: 'bottom' }, // 범례 위치 설정
+  hAxis: { title: 'X축' }, // X축 레이블 설정
+  vAxis: { title: '생존율' } // Y축 레이블 설정
+};
 
 // ==============================|| DASHBOARD - DEFAULT ||============================== //
 
 const DashboardDefault = () => {
-  const [value, setValue] = useState('today');
-  const [slot, setSlot] = useState('week');
+  // const [value, setValue] = useState('today');
+  // const [slot, setSlot] = useState('week');
 
   return (
     <Grid container rowSpacing={4.5} columnSpacing={2.75}>
       {/* row 1 */}
       <Grid item xs={12} sx={{ mb: -2.25 }}>
-        <Typography variant="h5">Dashboard</Typography>
+        {/* <Typography variant="h5">Dashboard</Typography> */}
       </Grid>
       <Grid item xs={12} sm={6} md={4} lg={3}>
-        <AnalyticEcommerce title="Total Page Views" count="4,42,236" percentage={59.3} extra="35,000" />
+        <AnalyticEcommerce title="Average survival rate for 1-day hospitalization" count="100%" percentage={100} extra="40,420" />
       </Grid>
       <Grid item xs={12} sm={6} md={4} lg={3}>
-        <AnalyticEcommerce title="Total Users" count="78,250" percentage={70.5} extra="8,900" />
+        <AnalyticEcommerce title="Average survival rate for 30-day hospitalization" count="70%" percentage={30} isLoss color="warning" extra="28,360" />
       </Grid>
       <Grid item xs={12} sm={6} md={4} lg={3}>
-        <AnalyticEcommerce title="Total Order" count="18,800" percentage={27.4} isLoss color="warning" extra="1,943" />
+        <AnalyticEcommerce title="Average survival rate for 50-day hospitalization" count="56%" percentage={14} isLoss color="warning" extra="22,635" />
       </Grid>
       <Grid item xs={12} sm={6} md={4} lg={3}>
-        <AnalyticEcommerce title="Total Sales" count="$35,078" percentage={27.4} isLoss color="warning" extra="$20,395" />
+        <AnalyticEcommerce title="Average survival rate for 100-day hospitalization" count="33%" percentage={23} isLoss color="warning" extra="13,340" />
       </Grid>
 
       <Grid item md={8} sx={{ display: { sm: 'none', md: 'block', lg: 'none' } }} />
 
       {/* row 2 */}
-      <Grid item xs={12} md={7} lg={8}>
+      <Grid item xs={12} md={6}>
         <Grid container alignItems="center" justifyContent="space-between">
           <Grid item>
-            <Typography variant="h5">Unique Visitor</Typography>
+            <Typography variant="h2">Survival Rate by Treatment Path</Typography>
           </Grid>
           <Grid item>
             <Stack direction="row" alignItems="center" spacing={0}>
-              <Button
-                size="small"
-                onClick={() => setSlot('month')}
-                color={slot === 'month' ? 'primary' : 'secondary'}
-                variant={slot === 'month' ? 'outlined' : 'text'}
-              >
-                Month
-              </Button>
-              <Button
-                size="small"
-                onClick={() => setSlot('week')}
-                color={slot === 'week' ? 'primary' : 'secondary'}
-                variant={slot === 'week' ? 'outlined' : 'text'}
-              >
-                Week
-              </Button>
             </Stack>
           </Grid>
         </Grid>
-        <MainCard content={false} sx={{ mt: 1.5 }}>
-          <Box sx={{ pt: 1, pr: 2 }}>
-            <IncomeAreaChart slot={slot} />
-          </Box>
+        <MainCard content={false} sx={{ mt: 1 }}>
+            <Chart
+                chartType="Sankey"
+                data={data}
+                options={options}
+                width="93%"
+                height="470px"
+                // margin="100px"
+                legendToggle
+              />
         </MainCard>
       </Grid>
-      <Grid item xs={12} md={5} lg={4}>
+      <Grid item xs={12} md={6}>
         <Grid container alignItems="center" justifyContent="space-between">
           <Grid item>
-            <Typography variant="h5">Income Overview</Typography>
+            <Typography variant="h2">Servival Rate Over days by Treatment</Typography>
           </Grid>
           <Grid item />
         </Grid>
-        <MainCard sx={{ mt: 2 }} content={false}>
+        <MainCard sx={{ mt: 1 }} content={false}>
           <Box sx={{ p: 3, pb: 0 }}>
-            <Stack spacing={2}>
-              <Typography variant="h6" color="textSecondary">
-                This Week Statistics
-              </Typography>
-              <Typography variant="h3">$7,650</Typography>
-            </Stack>
           </Box>
-          <MonthlyBarChart />
+            <Chart
+                chartType="LineChart"
+                width="100%"
+                height="445px"
+                data={line_data}
+                options={line_options}
+              />
         </MainCard>
       </Grid>
 
       {/* row 3 */}
-      <Grid item xs={12} md={7} lg={8}>
+      <Grid item xs={12}>
         <Grid container alignItems="center" justifyContent="space-between">
           <Grid item>
-            <Typography variant="h5">Recent Orders</Typography>
+            <Typography variant="h2">Treatment Path of Days</Typography>
           </Grid>
           <Grid item />
         </Grid>
         <MainCard sx={{ mt: 2 }} content={false}>
-          <OrdersTable />
-        </MainCard>
-      </Grid>
-      <Grid item xs={12} md={5} lg={4}>
-        <Grid container alignItems="center" justifyContent="space-between">
-          <Grid item>
-            <Typography variant="h5">Analytics Report</Typography>
-          </Grid>
-          <Grid item />
-        </Grid>
-        <MainCard sx={{ mt: 2 }} content={false}>
-          <List sx={{ p: 0, '& .MuiListItemButton-root': { py: 2 } }}>
-            <ListItemButton divider>
-              <ListItemText primary="Company Finance Growth" />
-              <Typography variant="h5">+45.14%</Typography>
-            </ListItemButton>
-            <ListItemButton divider>
-              <ListItemText primary="Company Expenses Ratio" />
-              <Typography variant="h5">0.58%</Typography>
-            </ListItemButton>
-            <ListItemButton>
-              <ListItemText primary="Business Risk Cases" />
-              <Typography variant="h5">Low</Typography>
-            </ListItemButton>
-          </List>
-          <ReportAreaChart />
-        </MainCard>
-      </Grid>
-
-      {/* row 4 */}
-      <Grid item xs={12} md={7} lg={8}>
-        <Grid container alignItems="center" justifyContent="space-between">
-          <Grid item>
-            <Typography variant="h5">Sales Report</Typography>
-          </Grid>
-          <Grid item>
-            <TextField
-              id="standard-select-currency"
-              size="small"
-              select
-              value={value}
-              onChange={(e) => setValue(e.target.value)}
-              sx={{ '& .MuiInputBase-input': { py: 0.5, fontSize: '0.875rem' } }}
-            >
-              {status.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
-                </MenuItem>
-              ))}
-            </TextField>
-          </Grid>
-        </Grid>
-        <MainCard sx={{ mt: 1.75 }}>
-          <Stack spacing={1.5} sx={{ mb: -12 }}>
-            <Typography variant="h6" color="secondary">
-              Net Profit
-            </Typography>
-            <Typography variant="h4">$1560</Typography>
-          </Stack>
-          <SalesColumnChart />
-        </MainCard>
-      </Grid>
-      <Grid item xs={12} md={5} lg={4}>
-        <Grid container alignItems="center" justifyContent="space-between">
-          <Grid item>
-            <Typography variant="h5">Transaction History</Typography>
-          </Grid>
-          <Grid item />
-        </Grid>
-        <MainCard sx={{ mt: 2 }} content={false}>
-          <List
-            component="nav"
-            sx={{
-              px: 0,
-              py: 0,
-              '& .MuiListItemButton-root': {
-                py: 1.5,
-                '& .MuiAvatar-root': avatarSX,
-                '& .MuiListItemSecondaryAction-root': { ...actionSX, position: 'relative' }
-              }
-            }}
-          >
-            <ListItemButton divider>
-              <ListItemAvatar>
-                <Avatar
-                  sx={{
-                    color: 'success.main',
-                    bgcolor: 'success.lighter'
-                  }}
-                >
-                  <GiftOutlined />
-                </Avatar>
-              </ListItemAvatar>
-              <ListItemText primary={<Typography variant="subtitle1">Order #002434</Typography>} secondary="Today, 2:00 AM" />
-              <ListItemSecondaryAction>
-                <Stack alignItems="flex-end">
-                  <Typography variant="subtitle1" noWrap>
-                    + $1,430
-                  </Typography>
-                  <Typography variant="h6" color="secondary" noWrap>
-                    78%
-                  </Typography>
-                </Stack>
-              </ListItemSecondaryAction>
-            </ListItemButton>
-            <ListItemButton divider>
-              <ListItemAvatar>
-                <Avatar
-                  sx={{
-                    color: 'primary.main',
-                    bgcolor: 'primary.lighter'
-                  }}
-                >
-                  <MessageOutlined />
-                </Avatar>
-              </ListItemAvatar>
-              <ListItemText primary={<Typography variant="subtitle1">Order #984947</Typography>} secondary="5 August, 1:45 PM" />
-              <ListItemSecondaryAction>
-                <Stack alignItems="flex-end">
-                  <Typography variant="subtitle1" noWrap>
-                    + $302
-                  </Typography>
-                  <Typography variant="h6" color="secondary" noWrap>
-                    8%
-                  </Typography>
-                </Stack>
-              </ListItemSecondaryAction>
-            </ListItemButton>
-            <ListItemButton>
-              <ListItemAvatar>
-                <Avatar
-                  sx={{
-                    color: 'error.main',
-                    bgcolor: 'error.lighter'
-                  }}
-                >
-                  <SettingOutlined />
-                </Avatar>
-              </ListItemAvatar>
-              <ListItemText primary={<Typography variant="subtitle1">Order #988784</Typography>} secondary="7 hours ago" />
-              <ListItemSecondaryAction>
-                <Stack alignItems="flex-end">
-                  <Typography variant="subtitle1" noWrap>
-                    + $682
-                  </Typography>
-                  <Typography variant="h6" color="secondary" noWrap>
-                    16%
-                  </Typography>
-                </Stack>
-              </ListItemSecondaryAction>
-            </ListItemButton>
-          </List>
-        </MainCard>
-        <MainCard sx={{ mt: 2 }}>
-          <Stack spacing={3}>
-            <Grid container justifyContent="space-between" alignItems="center">
-              <Grid item>
-                <Stack>
-                  <Typography variant="h5" noWrap>
-                    Help & Support Chat
-                  </Typography>
-                  <Typography variant="caption" color="secondary" noWrap>
-                    Typical replay within 5 min
-                  </Typography>
-                </Stack>
-              </Grid>
-              <Grid item>
-                <AvatarGroup sx={{ '& .MuiAvatar-root': { width: 32, height: 32 } }}>
-                  <Avatar alt="Remy Sharp" src={avatar1} />
-                  <Avatar alt="Travis Howard" src={avatar2} />
-                  <Avatar alt="Cindy Baker" src={avatar3} />
-                  <Avatar alt="Agnes Walker" src={avatar4} />
-                </AvatarGroup>
-              </Grid>
-            </Grid>
-            <Button size="small" variant="contained" sx={{ textTransform: 'capitalize' }}>
-              Need Help?
-            </Button>
-          </Stack>
+          {/* <OrdersTable /> */}
+          {/* <Example /> */}
+          <DataGridExample />
         </MainCard>
       </Grid>
     </Grid>
