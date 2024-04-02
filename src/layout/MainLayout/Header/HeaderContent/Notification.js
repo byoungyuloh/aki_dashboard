@@ -3,29 +3,10 @@ import { useRef, useState } from 'react';
 // material-ui
 import { useTheme } from '@mui/material/styles';
 import {
-  Avatar,
-  Badge,
   Box,
-  ClickAwayListener,
-  Divider,
-  IconButton,
-  List,
-  ListItemButton,
-  ListItemAvatar,
-  ListItemText,
-  ListItemSecondaryAction,
-  Paper,
-  Popper,
-  Typography,
   useMediaQuery
 } from '@mui/material';
 
-// project import
-import MainCard from 'components/MainCard';
-import Transitions from 'components/@extended/Transitions';
-
-// assets
-import { BellOutlined, CloseOutlined, GiftOutlined, MessageOutlined, SettingOutlined } from '@ant-design/icons';
 
 // sx styles
 const avatarSX = {
