@@ -1,6 +1,4 @@
-// material-ui
-import { Box, IconButton, Link, useMediaQuery } from '@mui/material';
-import { GithubOutlined } from '@ant-design/icons';
+import { Box, IconButton, Link, useMediaQuery, Typography } from '@mui/material';
 
 // project import
 import Search from './Search';
@@ -8,32 +6,29 @@ import Profile from './Profile';
 import Notification from './Notification';
 import MobileSection from './MobileSection';
 
-// ==============================|| HEADER - CONTENT ||============================== //
-
 const HeaderContent = () => {
   const matchesXs = useMediaQuery((theme) => theme.breakpoints.down('md'));
 
   return (
-    <>
-      {!matchesXs && <Search />}
-      {matchesXs && <Box sx={{ width: '100%', ml: 1 }} />}
+    <Box sx={{ display: 'flex', alignItems: 'center', width: '100%', mr:30 }}>
+      {/* 왼쪽 요소 */}
+      <Box sx={{ display: 'flex', alignItems: 'center' }}>
+        {!matchesXs && <Search />}
+        {matchesXs && <Box sx={{ ml: 1 }} />}
+      </Box>
 
-      <IconButton
-        component={Link}
-        href="https://github.com/codedthemes/mantis-free-react-admin-template"
-        target="_blank"
-        disableRipple
-        color="secondary"
-        title="Download Free Version"
-        sx={{ color: 'text.primary', bgcolor: 'grey.100' }}
-      >
-        <GithubOutlined />
-      </IconButton>
+      {/* 중앙 요소 - 확장하여 중앙에 위치하도록 함 */}
+      <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center' }}>
+        <Typography variant="h5">Aki Predict Dashboard</Typography>
+      </Box>
 
-      <Notification />
-      {!matchesXs && <Profile />}
-      {matchesXs && <MobileSection />}
-    </>
+      {/* 오른쪽 요소 */}
+      <Box sx={{ display: 'flex', alignItems: 'center' }}>
+        {/* <Notification /> */}
+        {!matchesXs && <Profile />}
+        {/* {matchesXs && <MobileSection />} */}
+      </Box>
+    </Box>
   );
 };
 

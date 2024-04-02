@@ -9,7 +9,7 @@ import { SearchOutlined } from '@ant-design/icons';
 const Search = () => (
   <Box sx={{ width: '100%', ml: { xs: 0, md: 1 } }}>
     <FormControl sx={{ width: { xs: '100%', md: 224 } }}>
-      <OutlinedInput
+      {/* <OutlinedInput
         size="small"
         id="header-search"
         startAdornment={
@@ -21,8 +21,8 @@ const Search = () => (
         inputProps={{
           'aria-label': 'weight'
         }}
-        placeholder="Ctrl + K"
-      />
+        // placeholder="Ctrl + K"
+      /> */}
     </FormControl>
   </Box>
 );

@@ -83,6 +83,9 @@ const Profile = () => {
 
   return (
     <Box sx={{ flexShrink: 0, ml: 0.75 }}>
+<<<<<<< HEAD
+      {/* <Popper
+=======
       <ButtonBase
         sx={{
           p: 0.25,
@@ -97,11 +100,12 @@ const Profile = () => {
         onClick={handleToggle}
       >
         <Stack direction="row" spacing={2} alignItems="center" sx={{ p: 0.5 }}>
-          <Avatar alt="profile user" src={avatar1} sx={{ width: 32, height: 32 }} />
-          <Typography variant="subtitle1">John Doe</Typography>
+          {/* <Avatar alt="profile user" src={avatar1} sx={{ width: 32, height: 32 }} /> */}
+          {/* <Typography variant="subtitle1">John Doe</Typography> */}
         </Stack>
       </ButtonBase>
       <Popper
+>>>>>>> d075a3da7670f37640a96d67e7980f6a5d9e08d6
         placement="bottom-end"
         open={open}
         anchorEl={anchorRef.current}
@@ -141,7 +145,7 @@ const Profile = () => {
                           <Stack direction="row" spacing={1.25} alignItems="center">
                             <Avatar alt="profile user" src={avatar1} sx={{ width: 32, height: 32 }} />
                             <Stack>
-                              <Typography variant="h6">John Doe</Typography>
+                              {/* <Typography variant="h6">John Doe</Typography> */}
                               <Typography variant="body2" color="textSecondary">
                                 UI/UX Designer
                               </Typography>
@@ -199,7 +203,7 @@ const Profile = () => {
             )}
           </Transitions>
         )}
-      </Popper>
+      </Popper> */}
     </Box>
   );
 };

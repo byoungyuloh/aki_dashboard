@@ -1,4 +1,6 @@
-import { useState } from 'react';
+
+import React, { useState, useEffect, useRef } from 'react';
+import axios from 'axios';
 
 // material-ui
 import {
@@ -6,13 +8,20 @@ import {
   AvatarGroup,
   Box,
   Button,
+  Card,
+  CardContent,
+  CircularProgress,
+  Divider,
   Grid,
   List,
+  ListItem,
   ListItemAvatar,
   ListItemButton,
   ListItemSecondaryAction,
   ListItemText,
   MenuItem,
+  Modal,
+
   Stack,
   TextField,
   Typography
@@ -33,6 +42,14 @@ import avatar1 from 'assets/images/users/avatar-1.png';
 import avatar2 from 'assets/images/users/avatar-2.png';
 import avatar3 from 'assets/images/users/avatar-3.png';
 import avatar4 from 'assets/images/users/avatar-4.png';
+import PatientInfo from './PatientInfo';
+import Ioinfo from './Ioinfo';
+import Examresult from './Examresult';
+import Icd9Codes from './Icd9Codes';
+import Icd10Codes from './Icd10Codes';
+import SelectedCodesDisplay from './SelectedCodesDisplay';
+import Selectedicd9 from './Selectedicd9';
+import Selectedicd10 from './Selectedicd10';
 
 // avatar style
 const avatarSX = {
@@ -67,276 +84,456 @@ const status = [
   }
 ];
 
+
+
 // ==============================|| DASHBOARD - DEFAULT ||============================== //
 
 const DashboardDefault = () => {
   const [value, setValue] = useState('today');
   const [slot, setSlot] = useState('week');
+  const modalStyle = {
+    position: 'absolute',
+    top: '25%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    bgcolor: 'background.paper',
+    boxShadow: 24,
+    p: 4,
+  };
+  const patients = [
+    { id: 1, name: "홍길동", gender: "남성", height: "170cm", age: 35, weight: "70kg", furo_amount: 20, sum_before: 100, base_output: 150,
+    albumin: 4.5, bun: 14, calcium: 9.8, creatinine: 1.0, chloride: 110, glucose: 90, hematocrit: '45%', hemoglobin: 15.0, platelet_count: 250000, potassium: 4.2, pt: 12, ptt: 30, sodium: 140 },
+    { id: 2, name: "김철수", gender: "남성", height: "180cm", age: 42, weight: "80kg", furo_amount: 25, sum_before: 110, base_output: 160,
+    albumin: 4.9, bun: 21, calcium: 9.2, creatinine: 0.5, chloride: 90, glucose: 95, hematocrit: '35%', hemoglobin: 13.0, platelet_count: 200000, potassium: 4.0, pt: 10, ptt: 10, sodium: 130 },
+    { id: 3, name: "이영희", gender: "여성", height: "160cm", age: 30, weight: "50kg", furo_amount: 15, sum_before: 90, base_output: 140,
+    albumin: 5.1, bun: 36, calcium: 7.4, creatinine: 0.9, chloride: 120, glucose: 80, hematocrit: '76%', hemoglobin: 17.0, platelet_count: 300000, potassium: 3.1, pt: 5, ptt: 20, sodium: 170},
+    { id: 4, name: "박 민", gender: "여성", height: "165cm", age: 38, weight: "55kg", furo_amount: 18, sum_before: 95, base_output: 145,
+    albumin: 5.6, bun: 5, calcium: 8.2, creatinine: 0.7, chloride: 70, glucose: 110, hematocrit: '55%', hemoglobin: 12.0, platelet_count: 500000, potassium: 5.9, pt: 14, ptt: 40, sodium: 110 },
+  ];
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedPatientId, setSelectedPatientId] = useState(null);
+  const handleModalOpen = () => setModalOpen(true);
+  const handleModalClose = () => setModalOpen(false);
+  const handlePatientSelect = (id) => {
+    setSelectedPatientId(id);
+    handleModalClose();
+  };
+
+  const reqData = {
+    furo_amount: 0,
+    sum_before: 0,
+    patientweight: 0,
+    sex: 0,
+    real_age: 0,
+    albumin: 0,
+    bun: 0,
+    calcium: 0,
+    creatinine: 0,
+    chloride: 0,
+    glucose: 0,
+    hematocrit: 0,
+    hemoglobin: 0,
+    platelet_count: 0,
+    potassium: 0,
+    pt: 0,
+    ptt: 0,
+    sodium: 0,
+    diag_971: 0,
+    diag_980: 0,
+    diag_982: 0,
+    diag_989: 0,
+    diag_990: 0,
+    diag_991: 0,
+    diag_993: 0,
+    diag_B16: 0,
+    diag_B17: 0,
+    diag_B18: 0,
+    diag_B19: 0,
+    diag_B942: 0,
+    diag_C15: 0,
+    diag_C18: 0,
+    diag_C19: 0,
+    diag_C20: 0,
+    diag_C22: 0,
+    diag_C25: 0,
+    diag_C34: 0,
+    diag_C50: 0,
+    diag_C56: 0,
+    diag_C61: 0,
+    diag_C82: 0,
+    diag_C83: 0,
+    diag_C85: 0,
+    diag_C91: 0,
+    diag_C92: 0,
+    diag_C93: 0,
+    diag_C94: 0,
+    diag_C95: 0,
+    diag_D05: 0,
+    diag_E10: 0,
+    diag_E11: 0,
+    diag_E13: 0,
+    diag_E830: 0,
+    diag_E831: 0,
+    diag_G450: 0,
+    diag_G453: 0,
+    diag_G458: 0,
+    diag_G459: 0,
+    diag_H341: 0,
+    diag_I10: 0,
+    diag_I11: 0,
+    diag_I12: 0,
+    diag_I13: 0,
+    diag_I15: 0,
+    diag_I21: 0,
+    diag_I22: 0,
+    diag_I600: 0,
+    diag_I601: 0,
+    diag_I602: 0,
+    diag_I603: 0,
+    diag_I604: 0,
+    diag_I605: 0,
+    diag_I606: 0,
+    diag_I607: 0,
+    diag_I609: 0,
+    diag_I61: 0,
+    diag_I62: 0,
+    diag_I630: 0,
+    diag_I631: 0,
+    diag_I632: 0,
+    diag_I633: 0,
+    diag_I634: 0,
+    diag_I635: 0,
+    diag_I638: 0,
+    diag_I639: 0,
+    diag_I700: 0,
+    diag_I702: 0,
+    diag_I708: 0,
+    diag_I709: 0,
+    diag_I731: 0,
+    diag_I738: 0,
+    diag_I739: 0,
+    diag_I85: 0,
+    diag_K551: 0,
+    diag_K70: 0,
+    diag_K713: 0,
+    diag_K717: 0,
+    diag_K721: 0,
+    diag_K729: 0,
+    diag_K74: 0,
+    diag_K753: 0,
+    diag_K754: 0,
+    diag_K758: 0,
+    diag_K759: 0,
+    diag_K76: 0,
+    diag_N08: 0,
+    diag_N18: 0,
+    diag_N19: 0,
+    diag_N200: 0,
+    diag_N201: 0,
+    diag_N202: 0,
+    diag_N210: 0,
+    diag_R160: 0,
+    diag_R162: 0,
+    diag_R17: 0,
+    diag_R18: 0,
+    diag_T822: 0,
+    diag_Z225: 0,
+    diag_Z955: 0
+  }
+  const [loading, setLoading] = useState(false);
+  const [icd9Codes, setIcd9codes] = useState([]);
+  const [icd10Codes, setIcd10codes] = useState([]);
+  const [selectedIcd10, setSelectedIcd10] = useState([]);
+  const [selectedIcd9, setSelectedIcd9] = useState([]);
+  const [imageSrc, setImageSrc] = useState(''); // base64 이미지 데이터를 위한 상태
+  const resultRef = useRef(null);
+  const imageRef = useRef(null);
+  const [predictionResult, setPredictionResult] = useState('');
+  const [variableImportance, setVariableImportance] = useState([]);
+
+  const getIcdCodes = async () => {
+    setLoading(true); // 로딩 시작
+  
+    try {
+      const response = await axios.post('https://amm.kr:443/predict', reqData);
+  
+      // 2초 대기 후에 상태 업데이트
+      setTimeout(() => {
+        setLoading(false); // 로딩 종료
+        const variableImportance = response.data.variable_importance;
+  
+        // ICD-9 및 ICD-10 코드 분류
+        let icd9Codes = variableImportance.filter(item => 
+          item.variable.startsWith('diag_') && !isNaN(item.variable.replace('diag_', ''))
+        );
+        let icd10Codes = variableImportance.filter(item => 
+          item.variable.startsWith('diag_') && isNaN(item.variable.replace('diag_', ''))
+        );
+  
+        setIcd9codes(icd9Codes);
+        setIcd10codes(icd10Codes);
+      }, 2000); // 2000밀리초 후에 실행됩니다.
+      
+    } catch (error) {
+      // 오류가 발생하더라도 2초간 대기한 후 로딩 상태를 종료
+      setTimeout(() => {
+        setLoading(false); // 로딩 종료
+      }, 2000);
+      
+      console.error('API 통신 중 오류 발생:', error);
+    }
+  };
+
+  useEffect(() => {
+    getIcdCodes();
+  }, []);
+
+  
+  const handleIcd9Change = (newIcd9Codes) => {
+    setSelectedIcd9(newIcd9Codes);
+  };
+
+  const handleIcd10Change = (newIcd10Codes) => {
+    setSelectedIcd10(newIcd10Codes);
+  };
+
+  const [predictLoading, setPredictLoading] = useState(false);
+
+  const onClickPredictButton = async () => {
+    if(selectedPatientId === null) {
+      alert('예측할 환자를 선택해주세요.');
+      handleModalOpen();
+      return;
+    }
+    setPredictLoading(true);
+    try {
+      const response = await axios.post('https://amm.kr:443/predict', reqData);
+      console.log(response);
+      let percentage = (response.data.probability * 100).toFixed(2);
+      setPredictionResult(`${percentage}%`);
+      setVariableImportance(response.data.variable_importance);
+      
+      // response.data.explain_row의 데이터를 이미지 소스로 설정
+      const base64Image = response.data.explain_row;
+      setImageSrc(`data:image/png;base64,${base64Image}`);
+    } catch (error) {
+      console.error("Prediction API call failed:", error);
+    }
+    setPredictLoading(false);
+  };
+
+  const onLoadimage = () => {
+    if (imageSrc && imageRef.current) {
+      // 이미지가 로드되면 해당 위치로 스크롤
+      imageRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
 
   return (
     <Grid container rowSpacing={4.5} columnSpacing={2.75}>
-      {/* row 1 */}
-      <Grid item xs={12} sx={{ mb: -2.25 }}>
-        <Typography variant="h5">Dashboard</Typography>
-      </Grid>
-      <Grid item xs={12} sm={6} md={4} lg={3}>
-        <AnalyticEcommerce title="Total Page Views" count="4,42,236" percentage={59.3} extra="35,000" />
-      </Grid>
-      <Grid item xs={12} sm={6} md={4} lg={3}>
-        <AnalyticEcommerce title="Total Users" count="78,250" percentage={70.5} extra="8,900" />
-      </Grid>
-      <Grid item xs={12} sm={6} md={4} lg={3}>
-        <AnalyticEcommerce title="Total Order" count="18,800" percentage={27.4} isLoss color="warning" extra="1,943" />
-      </Grid>
-      <Grid item xs={12} sm={6} md={4} lg={3}>
-        <AnalyticEcommerce title="Total Sales" count="$35,078" percentage={27.4} isLoss color="warning" extra="$20,395" />
-      </Grid>
-
       <Grid item md={8} sx={{ display: { sm: 'none', md: 'block', lg: 'none' } }} />
-
-      {/* row 2 */}
-      <Grid item xs={12} md={7} lg={8}>
+      {/* row 1 */}
+      <Grid item xs={12} md={6} lg={6} justifyContent="space-between" alignItems="stretch">
         <Grid container alignItems="center" justifyContent="space-between">
           <Grid item>
-            <Typography variant="h5">Unique Visitor</Typography>
+            <Typography variant="h5">환자 기본정보</Typography>
           </Grid>
           <Grid item>
             <Stack direction="row" alignItems="center" spacing={0}>
-              <Button
-                size="small"
-                onClick={() => setSlot('month')}
-                color={slot === 'month' ? 'primary' : 'secondary'}
-                variant={slot === 'month' ? 'outlined' : 'text'}
-              >
-                Month
-              </Button>
-              <Button
-                size="small"
-                onClick={() => setSlot('week')}
-                color={slot === 'week' ? 'primary' : 'secondary'}
-                variant={slot === 'week' ? 'outlined' : 'text'}
-              >
-                Week
+            <Button size="small" onClick={handleModalOpen} color="primary" variant="outlined">
+                환자선택
               </Button>
             </Stack>
           </Grid>
         </Grid>
-        <MainCard content={false} sx={{ mt: 1.5 }}>
+        <MainCard content={false} sx={{ mt: 1.5, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', minHeight: 100 }}>
           <Box sx={{ pt: 1, pr: 2 }}>
-            <IncomeAreaChart slot={slot} />
+            <PatientInfo selectedPatientId={selectedPatientId} patients={patients} />
           </Box>
         </MainCard>
-      </Grid>
-      <Grid item xs={12} md={5} lg={4}>
+    </Grid>
+    {/* 환자 선택 모달 */}
+    <Modal open={modalOpen} onClose={handleModalClose}>
+        <Box sx={{ ...modalStyle, width: { xs: '90%', sm: '80%', md: '800px' } }}>
+          <Typography variant="h6" component="h2">환자 선택</Typography>
+          <List>
+            {patients.map((patient) => (
+              <React.Fragment key={patient.id}>
+                <ListItem button onClick={() => handlePatientSelect(patient.id)}>
+                  <ListItemText
+                    primary={`${patient.name} (${patient.gender}, ${patient.age}세)`}
+                    secondary={`키: ${patient.height}, 몸무게: ${patient.weight}, 이뇨제 투여량: ${patient.furo_amount}, 이전 6시간 배뇨량 합계: ${patient.sum_before}, base_output: ${patient.base_output}`}
+                  />
+                </ListItem>
+                <Divider />
+              </React.Fragment>
+            ))}
+          </List>
+        </Box>
+      </Modal>
+    <Grid item xs={12} md={6} lg={6} justifyContent="space-between" alignItems="stretch">
         <Grid container alignItems="center" justifyContent="space-between">
           <Grid item>
-            <Typography variant="h5">Income Overview</Typography>
+            <Typography variant="h5">이뇨제 & 배뇨량 정보</Typography>
+          </Grid>
+          <Grid item />
+        </Grid>
+        <MainCard sx={{ mt: 2.5, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', minHeight: 100 }} content={false}>
+          <Box sx={{ pt: 1, pr: 2 }}>
+            <Ioinfo selectedPatientId={selectedPatientId} patients={patients} />
+          </Box>
+        </MainCard>
+    </Grid>
+
+
+      {/* row 2 */}
+      <Grid item xs={12} md={4} lg={4}>
+        <Grid container alignItems="center" justifyContent="space-between">
+          <Grid item>
+            <Typography variant="h5">검사결과</Typography>
           </Grid>
           <Grid item />
         </Grid>
         <MainCard sx={{ mt: 2 }} content={false}>
-          <Box sx={{ p: 3, pb: 0 }}>
-            <Stack spacing={2}>
-              <Typography variant="h6" color="textSecondary">
-                This Week Statistics
-              </Typography>
-              <Typography variant="h3">$7,650</Typography>
-            </Stack>
-          </Box>
-          <MonthlyBarChart />
+          <Examresult selectedPatientId={selectedPatientId} patients={patients} />
+        </MainCard>
+      </Grid>
+      <Grid item xs={12} md={4} lg={4}>
+        <Grid container alignItems="center" justifyContent="space-between">
+          <Grid item>
+            <Typography variant="h5">ICD-9 Codes</Typography>
+          </Grid>
+          <Grid item />
+        </Grid>
+        <MainCard sx={{ mt: 2 }} content={false}>
+          <Icd9Codes icd9Codes={icd9Codes} onSelectedIcd9Change={handleIcd9Change}/>
+        </MainCard>
+      </Grid>
+      <Grid item xs={12} md={4} lg={4}>
+        <Grid container alignItems="center" justifyContent="space-between">
+          <Grid item>
+            <Typography variant="h5">ICD-10 Codes</Typography>
+          </Grid>
+          <Grid item />
+        </Grid>
+        <MainCard sx={{ mt: 2 }} content={false}>
+          <Icd10Codes icd10Codes={icd10Codes} onSelectedIcd10Change={handleIcd10Change}/>
         </MainCard>
       </Grid>
 
       {/* row 3 */}
-      <Grid item xs={12} md={7} lg={8}>
-        <Grid container alignItems="center" justifyContent="space-between">
-          <Grid item>
-            <Typography variant="h5">Recent Orders</Typography>
+      {selectedIcd9.length === 0 && selectedIcd10.length === 0 ? (
+          <>
+          <Grid container alignItems="center" justifyContent="center" sx={{mt:5}}>
+              <Typography variant="h6" fontWeight="bold" color='#3F4D67'>
+              예측에 사용할 진단코드를 선택해주세요.
+              </Typography>
           </Grid>
-          <Grid item />
-        </Grid>
-        <MainCard sx={{ mt: 2 }} content={false}>
-          <OrdersTable />
-        </MainCard>
-      </Grid>
-      <Grid item xs={12} md={5} lg={4}>
-        <Grid container alignItems="center" justifyContent="space-between">
-          <Grid item>
-            <Typography variant="h5">Analytics Report</Typography>
-          </Grid>
-          <Grid item />
-        </Grid>
-        <MainCard sx={{ mt: 2 }} content={false}>
-          <List sx={{ p: 0, '& .MuiListItemButton-root': { py: 2 } }}>
-            <ListItemButton divider>
-              <ListItemText primary="Company Finance Growth" />
-              <Typography variant="h5">+45.14%</Typography>
-            </ListItemButton>
-            <ListItemButton divider>
-              <ListItemText primary="Company Expenses Ratio" />
-              <Typography variant="h5">0.58%</Typography>
-            </ListItemButton>
-            <ListItemButton>
-              <ListItemText primary="Business Risk Cases" />
-              <Typography variant="h5">Low</Typography>
-            </ListItemButton>
-          </List>
-          <ReportAreaChart />
-        </MainCard>
-      </Grid>
-
+          </>
+        )
+        :
+        (
+          <>
+              <Grid item xs={12} md={6} lg={6}>
+                <Grid container alignItems="center" justifyContent="center">
+                  <Grid item>
+                    <Typography variant="h5">예측에 사용할 ICD-9 진단코드 목록</Typography>
+                  </Grid>
+                  <Grid item>
+                  </Grid>
+                </Grid>
+                <MainCard sx={{ mt: 1.75 }}>
+                  <Selectedicd9 selectedIcd9Codes={selectedIcd9}/>
+                </MainCard>
+              </Grid>
+              <Grid item xs={12} md={6} lg={6}>
+                <Grid container alignItems="center" justifyContent="center">
+                  <Grid item>
+                    <Typography variant="h5">예측에 사용할 ICD-10 진단코드 목록</Typography>
+                  </Grid>
+                  <Grid item>
+                  </Grid>
+                </Grid>
+                <MainCard sx={{ mt: 1.75 }}>
+                  <Selectedicd10 selectedIcd10Codes={selectedIcd10}/>
+                </MainCard>
+              </Grid>
+              <Grid container alignItems="center" justifyContent="center" mt={3}>
+                  <Grid item>
+                    {
+                      predictionResult ?
+                      (<Button size="small" onClick={onClickPredictButton} color="primary" variant="outlined">
+                        다시 예측하기
+                      </Button>)
+                      : 
+                      (<Button size="small" onClick={onClickPredictButton} color="primary" variant="outlined">
+                        선택한 정보로 예측하기
+                      </Button>)
+                    }
+                    
+                  </Grid>
+                  <Grid item>
+                  </Grid>
+                </Grid>
+          </>
+        )
+      }
       {/* row 4 */}
-      <Grid item xs={12} md={7} lg={8}>
-        <Grid container alignItems="center" justifyContent="space-between">
-          <Grid item>
-            <Typography variant="h5">Sales Report</Typography>
-          </Grid>
-          <Grid item>
-            <TextField
-              id="standard-select-currency"
-              size="small"
-              select
-              value={value}
-              onChange={(e) => setValue(e.target.value)}
-              sx={{ '& .MuiInputBase-input': { py: 0.5, fontSize: '0.875rem' } }}
-            >
-              {status.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
-                </MenuItem>
-              ))}
-            </TextField>
-          </Grid>
-        </Grid>
-        <MainCard sx={{ mt: 1.75 }}>
-          <Stack spacing={1.5} sx={{ mb: -12 }}>
-            <Typography variant="h6" color="secondary">
-              Net Profit
-            </Typography>
-            <Typography variant="h4">$1560</Typography>
-          </Stack>
-          <SalesColumnChart />
-        </MainCard>
-      </Grid>
-      <Grid item xs={12} md={5} lg={4}>
-        <Grid container alignItems="center" justifyContent="space-between">
-          <Grid item>
-            <Typography variant="h5">Transaction History</Typography>
-          </Grid>
-          <Grid item />
-        </Grid>
-        <MainCard sx={{ mt: 2 }} content={false}>
-          <List
-            component="nav"
-            sx={{
-              px: 0,
-              py: 0,
-              '& .MuiListItemButton-root': {
-                py: 1.5,
-                '& .MuiAvatar-root': avatarSX,
-                '& .MuiListItemSecondaryAction-root': { ...actionSX, position: 'relative' }
-              }
-            }}
-          >
-            <ListItemButton divider>
-              <ListItemAvatar>
-                <Avatar
-                  sx={{
-                    color: 'success.main',
-                    bgcolor: 'success.lighter'
-                  }}
-                >
-                  <GiftOutlined />
-                </Avatar>
-              </ListItemAvatar>
-              <ListItemText primary={<Typography variant="subtitle1">Order #002434</Typography>} secondary="Today, 2:00 AM" />
-              <ListItemSecondaryAction>
-                <Stack alignItems="flex-end">
-                  <Typography variant="subtitle1" noWrap>
-                    + $1,430
-                  </Typography>
-                  <Typography variant="h6" color="secondary" noWrap>
-                    78%
-                  </Typography>
-                </Stack>
-              </ListItemSecondaryAction>
-            </ListItemButton>
-            <ListItemButton divider>
-              <ListItemAvatar>
-                <Avatar
-                  sx={{
-                    color: 'primary.main',
-                    bgcolor: 'primary.lighter'
-                  }}
-                >
-                  <MessageOutlined />
-                </Avatar>
-              </ListItemAvatar>
-              <ListItemText primary={<Typography variant="subtitle1">Order #984947</Typography>} secondary="5 August, 1:45 PM" />
-              <ListItemSecondaryAction>
-                <Stack alignItems="flex-end">
-                  <Typography variant="subtitle1" noWrap>
-                    + $302
-                  </Typography>
-                  <Typography variant="h6" color="secondary" noWrap>
-                    8%
-                  </Typography>
-                </Stack>
-              </ListItemSecondaryAction>
-            </ListItemButton>
-            <ListItemButton>
-              <ListItemAvatar>
-                <Avatar
-                  sx={{
-                    color: 'error.main',
-                    bgcolor: 'error.lighter'
-                  }}
-                >
-                  <SettingOutlined />
-                </Avatar>
-              </ListItemAvatar>
-              <ListItemText primary={<Typography variant="subtitle1">Order #988784</Typography>} secondary="7 hours ago" />
-              <ListItemSecondaryAction>
-                <Stack alignItems="flex-end">
-                  <Typography variant="subtitle1" noWrap>
-                    + $682
-                  </Typography>
-                  <Typography variant="h6" color="secondary" noWrap>
-                    16%
-                  </Typography>
-                </Stack>
-              </ListItemSecondaryAction>
-            </ListItemButton>
-          </List>
-        </MainCard>
-        <MainCard sx={{ mt: 2 }}>
-          <Stack spacing={3}>
-            <Grid container justifyContent="space-between" alignItems="center">
-              <Grid item>
-                <Stack>
-                  <Typography variant="h5" noWrap>
-                    Help & Support Chat
-                  </Typography>
-                  <Typography variant="caption" color="secondary" noWrap>
-                    Typical replay within 5 min
-                  </Typography>
-                </Stack>
-              </Grid>
-              <Grid item>
-                <AvatarGroup sx={{ '& .MuiAvatar-root': { width: 32, height: 32 } }}>
-                  <Avatar alt="Remy Sharp" src={avatar1} />
-                  <Avatar alt="Travis Howard" src={avatar2} />
-                  <Avatar alt="Cindy Baker" src={avatar3} />
-                  <Avatar alt="Agnes Walker" src={avatar4} />
-                </AvatarGroup>
-              </Grid>
+      {selectedIcd9.length === 0 && selectedIcd10.length === 0 ? (
+          <>
+          </>
+        )
+        :
+        (
+          <>
+          {predictLoading && (
+                  <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center', marginTop: '3%' }}>
+                    <CircularProgress />
+                  </Grid>
+          )}
+            <Grid item xs={12} sx={{ mt: 6 }}>
+              {predictLoading ? (
+                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100px' }}>
+                  <CircularProgress />
+                </Box>
+              ) : predictionResult && (
+                <Grid>
+                  <Grid container alignItems="center" justifyContent="center">
+                    <Grid item>
+                      <Typography variant="h5" sx={{ mb: 2, textAlign: 'center' }}>급성 신부전 예측 결과</Typography>
+                    </Grid>
+                    <Grid item />
+                  </Grid>
+                  <MainCard sx={{ mt: 2 }} content={false}>
+                    <Box sx={{ p: 2 }}>
+                      <Typography variant="h6" component="div" sx={{ textAlign: 'center' }}>
+                        급성 신부전 발생 확률: {predictionResult}
+                      </Typography>
+                      {imageSrc && (
+                        <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
+                          <img
+                            ref={imageRef}
+                            src={imageSrc}
+                            alt="Explain Visualization"
+                            onLoad={onLoadimage}
+                            style={{
+                              width: '100%',
+                              maxWidth: '80%',
+                              height: 'auto'
+                            }}
+                          />
+                        </Box>
+                      )}
+                    </Box>
+                  </MainCard>
+                </Grid>
+              )}
             </Grid>
-            <Button size="small" variant="contained" sx={{ textTransform: 'capitalize' }}>
-              Need Help?
-            </Button>
-          </Stack>
-        </MainCard>
-      </Grid>
+
+          </>
+        )
+      }
+      
     </Grid>
   );
 };
