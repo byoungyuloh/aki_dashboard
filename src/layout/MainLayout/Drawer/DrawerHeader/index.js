@@ -26,13 +26,8 @@ const DrawerHeader = ({ open }) => {
           // href="#"
           target="_blank"
           clickable
-<<<<<<< HEAD
-        /> */}
-      </Stack>
-=======
         />
       </Stack> */}
->>>>>>> d075a3da7670f37640a96d67e7980f6a5d9e08d6
     </DrawerHeaderStyled>
   );
 };

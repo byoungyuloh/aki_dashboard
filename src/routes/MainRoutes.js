@@ -24,13 +24,8 @@ const MainRoutes = {
   element: <MainLayout />,
   children: [
     {
-<<<<<<< HEAD
       path: '/dashboard',
       element: <DashboardDefault />
-=======
-      path: '/',
-      element: <AuthLogin />
->>>>>>> d075a3da7670f37640a96d67e7980f6a5d9e08d6
     },
     {
       path: 'color',

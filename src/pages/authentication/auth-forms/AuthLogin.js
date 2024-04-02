@@ -1,11 +1,6 @@
 import React from 'react';
-<<<<<<< HEAD
 import { Link as RouterLink, Navigate } from 'react-router-dom';
 
-=======
-// import { Link as RouterLink } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
->>>>>>> d075a3da7670f37640a96d67e7980f6a5d9e08d6
 // material-ui
 import {
   Button,
@@ -14,6 +9,7 @@ import {
   FormControlLabel,
   FormHelperText,
   Grid,
+  Link,
   IconButton,
   InputAdornment,
   InputLabel,
@@ -51,27 +47,16 @@ const AuthLogin = () => {
   const navigate = useNavigate();
 
   const onClickLogin = () => {
-<<<<<<< HEAD
     navigate('/dashboard');
-=======
-    // 'dashboard/default'
-    navigate('/dashboard/default'); // 이동할 경로를 전달합니다.
->>>>>>> d075a3da7670f37640a96d67e7980f6a5d9e08d6
   }
 
   return (
     <>
       <Formik
         initialValues={{
-<<<<<<< HEAD
           email: 'aki@amm.kr',
           password: '123456',
           submit: onClickLogin
-=======
-          email: 'ajou@aumc.ac.kr',
-          password: 'ajou',
-          // submit: null
->>>>>>> d075a3da7670f37640a96d67e7980f6a5d9e08d6
         }}
         validationSchema={Yup.object().shape({
           email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
@@ -88,7 +73,7 @@ const AuthLogin = () => {
           }
         }}
       >
-        {({ errors, handleBlur, handleChange, handleSubmit, touched, values }) => (
+        {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
           <form noValidate onSubmit={handleSubmit}>
             <Grid container spacing={3}>
               <Grid item xs={12}>
@@ -160,15 +145,10 @@ const AuthLogin = () => {
                       />
                     }
                     label={<Typography variant="h6">Keep me sign in</Typography>}
-<<<<<<< HEAD
                   /> */}
                   <Link variant="h6" component={RouterLink} to="" color="text.primary">
                     Forgot Password?
                   </Link>
-=======
-                  />
-                 
->>>>>>> d075a3da7670f37640a96d67e7980f6a5d9e08d6
                 </Stack>
               </Grid>
               {errors.submit && (
@@ -178,26 +158,11 @@ const AuthLogin = () => {
               )}
               <Grid item xs={12}>
                 <AnimateButton>
-<<<<<<< HEAD
                   <Button disableElevation disabled={isSubmitting} fullWidth size="large" type="submit" variant="contained" color="primary" onClick={onClickLogin}>
-=======
-                  <Button fullWidth size="large" type="submit" variant="contained" color="primary" onClick={onClickLogin}>
->>>>>>> d075a3da7670f37640a96d67e7980f6a5d9e08d6
                     Login
                   </Button>
                 </AnimateButton>
               </Grid>
-<<<<<<< HEAD
-=======
-              {/* <Grid item xs={12}>
-                <Divider>
-                  <Typography variant="caption"> Login with</Typography>
-                </Divider>
-              </Grid> */}
-              {/* <Grid item xs={12}>
-                <FirebaseSocial />
-              </Grid> */}
->>>>>>> d075a3da7670f37640a96d67e7980f6a5d9e08d6
             </Grid>
           </form>
         )}

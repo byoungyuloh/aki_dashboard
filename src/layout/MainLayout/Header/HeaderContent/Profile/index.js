@@ -83,29 +83,7 @@ const Profile = () => {
 
   return (
     <Box sx={{ flexShrink: 0, ml: 0.75 }}>
-<<<<<<< HEAD
-      {/* <Popper
-=======
-      <ButtonBase
-        sx={{
-          p: 0.25,
-          bgcolor: open ? iconBackColorOpen : 'transparent',
-          borderRadius: 1,
-          '&:hover': { bgcolor: 'secondary.lighter' }
-        }}
-        aria-label="open profile"
-        ref={anchorRef}
-        aria-controls={open ? 'profile-grow' : undefined}
-        aria-haspopup="true"
-        onClick={handleToggle}
-      >
-        <Stack direction="row" spacing={2} alignItems="center" sx={{ p: 0.5 }}>
-          {/* <Avatar alt="profile user" src={avatar1} sx={{ width: 32, height: 32 }} /> */}
-          {/* <Typography variant="subtitle1">John Doe</Typography> */}
-        </Stack>
-      </ButtonBase>
       <Popper
->>>>>>> d075a3da7670f37640a96d67e7980f6a5d9e08d6
         placement="bottom-end"
         open={open}
         anchorEl={anchorRef.current}
@@ -203,7 +181,7 @@ const Profile = () => {
             )}
           </Transitions>
         )}
-      </Popper> */}
+      </Popper> 
     </Box>
   );
 };

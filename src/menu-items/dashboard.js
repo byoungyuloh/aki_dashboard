@@ -21,14 +21,14 @@ const dashboard = {
       icon: icons.DashboardOutlined,
       breadcrumbs: false
     },
-    {
-      id: 'SecondPage',
-      title: 'SecondPage',
-      type: 'item',
-      url: '/sample-page',
-      icon: icons.DashboardOutlined,
-      breadcrumbs: false
-    }
+    // {
+    //   id: 'SecondPage',
+    //   title: 'SecondPage',
+    //   type: 'item',
+    //   url: '/sample-page',
+    //   icon: icons.DashboardOutlined,
+    //   breadcrumbs: false
+    // }
   ]
 };
 
