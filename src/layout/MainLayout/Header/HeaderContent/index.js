@@ -19,7 +19,7 @@ const HeaderContent = () => {
 
       {/* 중앙 요소 - 확장하여 중앙에 위치하도록 함 */}
       <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center' }}>
-        <Typography variant="h5">Aki Predict Dashboard</Typography>
+        <Typography variant="h5">Aki Predict Support</Typography>
       </Box>
 
       {/* 오른쪽 요소 */}

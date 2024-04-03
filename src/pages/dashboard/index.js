@@ -4,44 +4,25 @@ import axios from 'axios';
 
 // material-ui
 import {
-  Avatar,
-  AvatarGroup,
   Box,
   Button,
-  Card,
-  CardContent,
   CircularProgress,
   Divider,
   Grid,
   List,
   ListItem,
-  ListItemAvatar,
-  ListItemButton,
-  ListItemSecondaryAction,
   ListItemText,
-  MenuItem,
   Modal,
-
   Stack,
-  TextField,
   Typography
 } from '@mui/material';
 
 // project import
-import OrdersTable from './OrdersTable';
-import IncomeAreaChart from './IncomeAreaChart';
-import MonthlyBarChart from './MonthlyBarChart';
-import ReportAreaChart from './ReportAreaChart';
-import SalesColumnChart from './SalesColumnChart';
+
 import MainCard from 'components/MainCard';
-import AnalyticEcommerce from 'components/cards/statistics/AnalyticEcommerce';
 
 // assets
-import { GiftOutlined, MessageOutlined, SettingOutlined } from '@ant-design/icons';
-import avatar1 from 'assets/images/users/avatar-1.png';
-import avatar2 from 'assets/images/users/avatar-2.png';
-import avatar3 from 'assets/images/users/avatar-3.png';
-import avatar4 from 'assets/images/users/avatar-4.png';
+
 import PatientInfo from './PatientInfo';
 import Ioinfo from './Ioinfo';
 import Examresult from './Examresult';
@@ -101,13 +82,13 @@ const DashboardDefault = () => {
     p: 4,
   };
   const patients = [
-    { id: 1, name: "홍길동", gender: "남성", height: "170cm", age: 35, weight: "70kg", furo_amount: 20, sum_before: 100, base_output: 150,
+    { id: 1, name: "홍길동", gender: "남성", height: "170", age: 35, weight: "70", furo_amount: 20, sum_before: 100, base_output: 150,
     albumin: 4.5, bun: 14, calcium: 9.8, creatinine: 1.0, chloride: 110, glucose: 90, hematocrit: '45%', hemoglobin: 15.0, platelet_count: 250000, potassium: 4.2, pt: 12, ptt: 30, sodium: 140 },
-    { id: 2, name: "김철수", gender: "남성", height: "180cm", age: 42, weight: "80kg", furo_amount: 25, sum_before: 110, base_output: 160,
+    { id: 2, name: "김철수", gender: "남성", height: "180", age: 42, weight: "80", furo_amount: 25, sum_before: 110, base_output: 160,
     albumin: 4.9, bun: 21, calcium: 9.2, creatinine: 0.5, chloride: 90, glucose: 95, hematocrit: '35%', hemoglobin: 13.0, platelet_count: 200000, potassium: 4.0, pt: 10, ptt: 10, sodium: 130 },
-    { id: 3, name: "이영희", gender: "여성", height: "160cm", age: 30, weight: "50kg", furo_amount: 15, sum_before: 90, base_output: 140,
+    { id: 3, name: "이영희", gender: "여성", height: "160", age: 30, weight: "50", furo_amount: 15, sum_before: 90, base_output: 140,
     albumin: 5.1, bun: 36, calcium: 7.4, creatinine: 0.9, chloride: 120, glucose: 80, hematocrit: '76%', hemoglobin: 17.0, platelet_count: 300000, potassium: 3.1, pt: 5, ptt: 20, sodium: 170},
-    { id: 4, name: "박 민", gender: "여성", height: "165cm", age: 38, weight: "55kg", furo_amount: 18, sum_before: 95, base_output: 145,
+    { id: 4, name: "박 민", gender: "여성", height: "165", age: 38, weight: "55", furo_amount: 18, sum_before: 95, base_output: 145,
     albumin: 5.6, bun: 5, calcium: 8.2, creatinine: 0.7, chloride: 70, glucose: 110, hematocrit: '55%', hemoglobin: 12.0, platelet_count: 500000, potassium: 5.9, pt: 14, ptt: 40, sodium: 110 },
   ];
   const [modalOpen, setModalOpen] = useState(false);
@@ -340,8 +321,11 @@ const DashboardDefault = () => {
           </Grid>
           <Grid item>
             <Stack direction="row" alignItems="center" spacing={0}>
-            <Button size="small" onClick={handleModalOpen} color="primary" variant="outlined">
-                환자선택
+              <Button size="small" onClick={handleModalOpen} color="primary" variant="contained" sx={{mr:2}}>
+                  기본값 채우기
+              </Button>
+              <Button size="small" onClick={handleModalOpen} color="primary" variant="outlined">
+                  환자선택
               </Button>
             </Stack>
           </Grid>

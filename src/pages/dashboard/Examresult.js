@@ -3,10 +3,10 @@ import { Box, Grid, ListItem, TextField } from '@mui/material';
 
 const Examresult = ({ selectedPatientId, patients }) => {
   const [examResults, setExamResults] = useState({
-    albumin: '선택되지 않음', bun: '선택되지 않음', calcium: '선택되지 않음', 
-    creatinine: '선택되지 않음', chloride: '선택되지 않음', glucose: '선택되지 않음', 
-    hematocrit: '선택되지 않음', hemoglobin: '선택되지 않음', platelet_count: '선택되지 않음', 
-    potassium: '선택되지 않음', pt: '선택되지 않음', ptt: '선택되지 않음', sodium: '선택되지 않음'
+    albumin: '', bun: '', calcium: '', 
+    creatinine: '', chloride: '', glucose: '', 
+    hematocrit: '', hemoglobin: '', platelet_count: '', 
+    potassium: '', pt: '', ptt: '', sodium: ''
   });
 
   useEffect(() => {
@@ -16,10 +16,10 @@ const Examresult = ({ selectedPatientId, patients }) => {
       setExamResults({ albumin, bun, calcium, creatinine, chloride, glucose, hematocrit, hemoglobin, platelet_count, potassium, pt, ptt, sodium });
     } else {
       setExamResults({
-        albumin: '선택되지 않음', bun: '선택되지 않음', calcium: '선택되지 않음', 
-        creatinine: '선택되지 않음', chloride: '선택되지 않음', glucose: '선택되지 않음', 
-        hematocrit: '선택되지 않음', hemoglobin: '선택되지 않음', platelet_count: '선택되지 않음', 
-        potassium: '선택되지 않음', pt: '선택되지 않음', ptt: '선택되지 않음', sodium: '선택되지 않음'
+        albumin: '', bun: '', calcium: '', 
+        creatinine: '', chloride: '', glucose: '', 
+        hematocrit: '', hemoglobin: '', platelet_count: '', 
+        potassium: '', pt: '', ptt: '', sodium: ''
       });
     }
   }, [selectedPatientId, patients]);
