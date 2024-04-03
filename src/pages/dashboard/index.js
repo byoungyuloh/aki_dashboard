@@ -279,16 +279,57 @@ const DashboardDefault = () => {
   };
 
   const [predictLoading, setPredictLoading] = useState(false);
+  const extractNumeric = (str) => {
+    const numericPart = str.match(/\d+/g); // 정규 표현식을 사용하여 숫자만 추출
+    return numericPart ? parseInt(numericPart.join(''), 10) : 0; // 추출된 숫자를 정수로 변환
+  };
 
   const onClickPredictButton = async () => {
-    if(selectedPatientId === null) {
-      alert('예측할 환자를 선택해주세요.');
-      handleModalOpen();
-      return;
-    }
+    
+    const allDiagCodes = [...icd9Codes, ...icd10Codes].map(code => code.variable);
+
     setPredictLoading(true);
+
+    let api_data = {
+      furo_amount: ioInfo['이뇨제 투여량'] || 0,
+      sum_before: ioInfo['이전 6시간 배뇨량 합계'] || 0,
+      patientweight: patientInfo['weight'] || 0,
+      sex: patientInfo['gender'] === '남성' ? 1 : 0,
+      real_age: patientInfo['age'] || 0,
+      albumin: examResult['albumin'] || 0,
+      bun: examResult['bun'] || 0,
+      calcium: examResult['calcium'] || 0,
+      creatinine: examResult['creatinine'] || 0,
+      chloride: examResult['chloride'] || 0,
+      glucose: examResult['glucose'] || 0,
+      hematocrit: extractNumeric(examResult['hematocrit']) || 0,
+      hemoglobin: examResult['hemoglobin'] || 0,
+      platelet_count: examResult['platelet_count'] || 0,
+      potassium: examResult['potassium'] || 0,
+      pt: examResult['pt'] || 0,
+      ptt: examResult['ptt'] || 0,
+      sodium: examResult['sodium'] || 0,
+      ...allDiagCodes.reduce((acc, code) => ({ ...acc, [code]: 0 }), {}) // 모든 진단 코드 필드를 0으로 초기화
+    }
+
+    allDiagCodes.forEach(code => {
+      api_data[code] = 0;
+    });
+
+    const selectedIcd9Codes = selectedIcd9.map(code => code.variable);
+    const selectedIcd10Codes = selectedIcd10.map(code => code.variable);
+    
+    [selectedIcd9Codes, selectedIcd10Codes].flat().forEach(code => {
+      if (allDiagCodes.includes(code)) {
+        api_data[code] = 1; // 선택된 진단 코드의 필드를 1로 설정
+      }
+    });
+
+    console.log(api_data); // 구성된 reqData 확인
+    
+
     try {
-      const response = await axios.post('https://amm.kr:443/predict', reqData);
+      const response = await axios.post('https://amm.kr:443/predict', api_data);
       console.log(response);
       let percentage = (response.data.probability * 100).toFixed(2);
       setPredictionResult(`${percentage}%`);
@@ -310,6 +351,99 @@ const DashboardDefault = () => {
     }
   }
 
+  
+  const [selectedPatientInfo, setSelectedPatientInfo] = useState({});
+
+  // 환자 정보 변경 처리 함수
+  const handlePatientInfoChange = (updatedInfo) => {
+    console.log('Updated info:', updatedInfo);
+    setSelectedPatientInfo(updatedInfo); // 선택된 환자 정보 업데이트
+  };
+
+  const [exampleData, setExampleData] = useState([]);
+
+  
+  const fillData = () => {
+    const randomId = Math.floor(Math.random() * 4) + 1;
+    setSelectedPatientId(randomId);
+  };
+
+  
+  const [patientInfo, setPatientInfo] = useState({});
+  const [examResult, setExamResult] = useState({});
+  const [ioInfo, setIoInfo] = useState({});
+
+  useEffect(() => {
+    const selectedPatient = patients.find(patient => patient.id === selectedPatientId);
+    const patinfo = selectedPatient ? {
+      이름: selectedPatient.name,
+      나이: selectedPatient.age,
+      성별: selectedPatient.gender,
+      키: selectedPatient.height, // 단위 제외하고 숫자만 저장
+      몸무게: selectedPatient.weight, // 단위 제외하고 숫자만 저장
+    } : {
+      이름: '',
+      나이: '',
+      성별: '',
+      키: '',
+      몸무게: '',
+    };
+    
+    const examrslt = selectedPatient ? {
+      albumin: selectedPatient.albumin, bun: selectedPatient.bun, calcium: selectedPatient.calcium, 
+      creatinine: selectedPatient.creatinine, chloride: selectedPatient.chloride, glucose: selectedPatient.glucose, 
+      hematocrit: selectedPatient.hematocrit, hemoglobin: selectedPatient.hemoglobin, platelet_count: selectedPatient.platelet_count, 
+      potassium: selectedPatient.potassium, pt: selectedPatient.pt, ptt: selectedPatient.ptt, sodium: selectedPatient.sodium
+    } : {
+      albumin: '', bun: '', calcium: '', 
+      creatinine: '', chloride: '', glucose: '', 
+      hematocrit: '', hemoglobin: '', platelet_count: '', 
+      potassium: '', pt: '', ptt: '', sodium: ''
+    };
+
+    const ioinfo = selectedPatient ? {
+      '이뇨제 투여량': selectedPatient.furo_amount,
+      '이전 6시간 배뇨량 합계': selectedPatient.sum_before,
+      '기준 이뇨량': selectedPatient.base_output
+    } : {
+      '이뇨제 투여량': '',
+      '이전 6시간 배뇨량 합계': '',
+      '기준 이뇨량': ''
+    };
+
+    if (selectedPatient) {
+      setPatientInfo(patinfo);
+      setIoInfo(ioinfo);
+      setExamResult(examrslt);
+    }
+    else {
+      setPatientInfo(patinfo);
+      setExamResult(examrslt);
+      setIoInfo(ioinfo);
+    }
+  }, [selectedPatientId]);
+
+
+
+  
+
+  const handleInfoChange = (type, key, value) => {
+    switch (type) {
+      case 'patient':
+        setPatientInfo(prev => ({ ...prev, [key]: value }));
+        break;
+      case 'exam':
+        setExamResult(prev => ({ ...prev, [key]: value }));
+        break;
+      case 'io':
+        setIoInfo(prev => ({ ...prev, [key]: value }));
+        break;
+      default:
+        break;
+    }
+  };
+
+
   return (
     <Grid container rowSpacing={4.5} columnSpacing={2.75}>
       <Grid item md={8} sx={{ display: { sm: 'none', md: 'block', lg: 'none' } }} />
@@ -321,8 +455,8 @@ const DashboardDefault = () => {
           </Grid>
           <Grid item>
             <Stack direction="row" alignItems="center" spacing={0}>
-              <Button size="small" onClick={handleModalOpen} color="primary" variant="contained" sx={{mr:2}}>
-                  기본값 채우기
+              <Button size="small" onClick={fillData} color="primary" variant="contained" sx={{mr:2}}>
+                  예시 데이터 채우기
               </Button>
               <Button size="small" onClick={handleModalOpen} color="primary" variant="outlined">
                   환자선택
@@ -332,7 +466,8 @@ const DashboardDefault = () => {
         </Grid>
         <MainCard content={false} sx={{ mt: 1.5, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', minHeight: 100 }}>
           <Box sx={{ pt: 1, pr: 2 }}>
-            <PatientInfo selectedPatientId={selectedPatientId} patients={patients} />
+            {/* <PatientInfo selectedPatientId={selectedPatientId} patients={patients} /> */}
+            <PatientInfo patientInfo={patientInfo} onInfoChange={(key, value) => handleInfoChange('patient', key, value)} />
           </Box>
         </MainCard>
     </Grid>
@@ -364,7 +499,8 @@ const DashboardDefault = () => {
         </Grid>
         <MainCard sx={{ mt: 2.5, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', minHeight: 100 }} content={false}>
           <Box sx={{ pt: 1, pr: 2 }}>
-            <Ioinfo selectedPatientId={selectedPatientId} patients={patients} />
+            {/* <Ioinfo selectedPatientId={selectedPatientId} patients={patients} /> */}
+            <Ioinfo ioInfo={ioInfo} onInfoChange={(key, value) => handleInfoChange('io', key, value)} />
           </Box>
         </MainCard>
     </Grid>
@@ -379,7 +515,8 @@ const DashboardDefault = () => {
           <Grid item />
         </Grid>
         <MainCard sx={{ mt: 2 }} content={false}>
-          <Examresult selectedPatientId={selectedPatientId} patients={patients} />
+          {/* <Examresult selectedPatientId={selectedPatientId} patients={patients} /> */}
+          <Examresult examResult={examResult} onInfoChange={(key, value) => handleInfoChange('exam', key, value)} />
         </MainCard>
       </Grid>
       <Grid item xs={12} md={4} lg={4}>
@@ -443,22 +580,31 @@ const DashboardDefault = () => {
                 </MainCard>
               </Grid>
               <Grid container alignItems="center" justifyContent="center" mt={3}>
-                  <Grid item>
-                    {
-                      predictionResult ?
-                      (<Button size="small" onClick={onClickPredictButton} color="primary" variant="outlined">
-                        다시 예측하기
-                      </Button>)
-                      : 
-                      (<Button size="small" onClick={onClickPredictButton} color="primary" variant="outlined">
+                <Grid item>
+                  {predictionResult ? (
+                    <Button size="small" onClick={onClickPredictButton} color="primary" variant="outlined">
+                      다시 예측하기
+                    </Button>
+                  ) : (
+                    <div style={{ textAlign: 'center' }}> {/* div로 버튼과 메시지를 묶어서 중앙 정렬 */}
+                      <Button
+                        size="small"
+                        onClick={onClickPredictButton}
+                        color="primary"
+                        variant="outlined"
+                        disabled={!selectedPatientId || (selectedIcd9.length === 0 && selectedIcd10.length === 0)}
+                      >
                         선택한 정보로 예측하기
-                      </Button>)
-                    }
-                    
-                  </Grid>
-                  <Grid item>
-                  </Grid>
+                      </Button>
+                      {(!selectedPatientId || (selectedIcd9.length === 0 && selectedIcd10.length === 0)) && (
+                        <Typography variant="caption" display="block" mt={3}>
+                          필수 입력정보 ( 환자 선택, ICD-9 또는 ICD-10 코드가 누락되었습니다. )
+                        </Typography>
+                      )}
+                    </div>
+                  )}
                 </Grid>
+              </Grid>
           </>
         )
       }

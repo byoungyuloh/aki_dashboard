@@ -1,39 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Grid, ListItem, TextField, Typography, InputAdornment } from '@mui/material';
 
-const PatientInfo = ({ selectedPatientId, patients }) => {
-  const [patientInfo, setPatientInfo] = useState({
-    이름: '',
-    나이: '',
-    성별: '',
-    키: '',
-    몸무게: '',
-  });
-
-  useEffect(() => {
-    const selectedPatient = patients.find(patient => patient.id === selectedPatientId);
-    const info = selectedPatient ? {
-      이름: selectedPatient.name,
-      나이: selectedPatient.age,
-      성별: selectedPatient.gender,
-      키: selectedPatient.height, // 단위 제외하고 숫자만 저장
-      몸무게: selectedPatient.weight, // 단위 제외하고 숫자만 저장
-    } : {
-      이름: '',
-      나이: '',
-      성별: '',
-      키: '',
-      몸무게: '',
-    };
-
-    setPatientInfo(info);
-  }, [selectedPatientId, patients]);
-
+const PatientInfo = ({ patientInfo, onInfoChange }) => {
   const handleChange = (e, key) => {
-    setPatientInfo({
-      ...patientInfo,
-      [key]: e.target.value,
-    });
+    onInfoChange(key, e.target.value);
   };
 
   return (
