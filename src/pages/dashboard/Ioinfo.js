@@ -1,63 +1,53 @@
-import React, { useState, useEffect } from 'react';
-import { Box, Grid, ListItem, Typography, TextField } from '@mui/material';
+import React from 'react';
+import { Box, Grid, ListItem, Typography, TextField, Tooltip } from '@mui/material';
 
 const Ioinfo = ({ ioInfo, onInfoChange }) => {
-  const [patientInfo, setPatientInfo] = useState({
-    '이뇨제 투여량': '',
-    '이전 6시간 배뇨량 합계': '',
-    '기준 이뇨량': ''
-  });
+  const handleChange = (e, key) => {
+    onInfoChange(key, e.target.value);
+  };
 
-  // useEffect(() => {
-  //   const selectedPatient = patients.find(patient => patient.id === selectedPatientId);
-  //   const info = selectedPatient ? {
-  //     '이뇨제 투여량': selectedPatient.furo_amount,
-  //     '이전 6시간 배뇨량 합계': selectedPatient.sum_before,
-  //     '기준 이뇨량': selectedPatient.base_output
-  //   } : {
-  //     '이뇨제 투여량': '',
-  //     '이전 6시간 배뇨량 합계': '',
-  //     '기준 이뇨량': ''
-  //   };
-
-  //   setPatientInfo(info);
-  // }, [selectedPatientId, patients]);
-
-    // 필드 변경 핸들러
-    // const handleChange = (e, key) => {
-    //   setPatientInfo({
-    //     ...patientInfo,
-    //     [key]: e.target.value,
-    //   });
-    // };
-
-    const handleChange = (e, key) => {
-      onInfoChange(key, e.target.value);
-    };
-
-    return (
-        <Grid container spacing={2} justifyContent="center" alignItems="center">
-            {Object.entries(ioInfo).map(([label, value]) => (
-                <Grid item xs={12} sm={6} md={4} lg={4} key={label}>
-                    <ListItem>
-                        <Box textAlign="center" width="100%" display="flex" justifyContent="center">
-                            <Box width={200}> {/* 이 부분을 조절하여 텍스트 필드의 너비를 정할 수 있습니다. */}
-                                <Typography variant="subtitle1" component="div" style={{ fontWeight: 'bold' }}>
-                                    {label}
-                                </Typography>
-                                <TextField
-                                    variant="outlined"
-                                    value={value}
-                                    onChange={(e) => handleChange(e, label)}
-                                    fullWidth
-                                />
-                            </Box>
-                        </Box>
-                    </ListItem>
-                </Grid>
-            ))}
+  return (
+    <Grid container spacing={2} justifyContent="center" alignItems="center">
+      {Object.entries(ioInfo).map(([label, value]) => (
+        <Grid item xs={12} sm={6} md={4} lg={4} key={label}>
+          <ListItem>
+            <Box textAlign="center" width="100%" display="flex" justifyContent="center">
+              <Box width={200}>
+                <Typography variant="subtitle1" component="div" style={{ fontWeight: 'bold' }}>
+                  {label}
+                </Typography>
+                {label === '기준 이뇨량' ? (
+                  <Typography variant="body1" style={{ marginTop: 5, textAlign: 'center' }}>
+                    {value} ml
+                  </Typography>
+                ) : label === '배뇨량' ? (
+                  <Tooltip title="이전 6시간 배뇨량 합계">
+                    <TextField
+                      variant="outlined"
+                      value={value}
+                      onChange={(e) => handleChange(e, label)}
+                      fullWidth
+                      inputProps={{ style: { textAlign: 'center' } }}
+                      sx={{ minWidth: 100 }}
+                    />
+                  </Tooltip>
+                ) : (
+                  <TextField
+                    variant="outlined"
+                    value={value}
+                    onChange={(e) => handleChange(e, label)}
+                    fullWidth
+                    inputProps={{ style: { textAlign: 'center' } }}
+                    sx={{ minWidth: 100 }}
+                  />
+                )}
+              </Box>
+            </Box>
+          </ListItem>
         </Grid>
-    );
+      ))}
+    </Grid>
+  );
 };
 
 export default Ioinfo;

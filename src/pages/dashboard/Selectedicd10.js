@@ -1,7 +1,8 @@
 import React from 'react';
-import { Box, Typography, Grid, Chip } from '@mui/material';
+import { Box, Chip } from '@mui/material';
 
 const Selectedicd10 = ({ selectedIcd10Codes }) => {
+  
   return (
     <Box
       sx={{
@@ -20,8 +21,9 @@ const Selectedicd10 = ({ selectedIcd10Codes }) => {
     >
       {selectedIcd10Codes.map(code => (
         <Chip
-          key={code.variable}
-          label={`${code.variable} - ${code.percentage?.toFixed(12) || 'N/A'}%`}
+          key={code.code}
+          // label={`${code.variable} - ${code.percentage?.toFixed(12) || 'N/A'}%`}
+          label={`${code.label}`}
           sx={{ margin: '5px', minWidth: '150px' }} // Chip의 최소 너비를 150px로 설정
         />
       ))}

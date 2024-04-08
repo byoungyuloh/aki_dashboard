@@ -1,0 +1,102 @@
+"icd_code","icd_version","long_title"
+"971",9,Poisoning by parasympathomimetics (cholinergics)
+"980",9,Toxic effect of ethyl alcohol
+"982",9,Toxic effect of benzene and homologues
+"989",9,Toxic effect of hydrocyanic acid and cyanides
+"990",9,"Effects of radiation, unspecified"
+"991",9,Frostbite of face
+"993",9,"Barotrauma, otitic"
+B16    ,10,Acute hepatitis B
+B17    ,10,Other acute viral hepatitis
+B18    ,10,Chronic viral hepatitis
+B19    ,10,Unspecified viral hepatitis
+B942   ,10,Sequelae of viral hepatitis
+C15    ,10,Malignant neoplasm of esophagus
+C18    ,10,Malignant neoplasm of colon
+C19    ,10,Malignant neoplasm of rectosigmoid junction
+C20    ,10,Malignant neoplasm of rectum
+C22    ,10,Malignant neoplasm of liver and intrahepatic bile ducts
+C25    ,10,Malignant neoplasm of pancreas
+C34    ,10,Malignant neoplasm of bronchus and lung
+C50    ,10,Malignant neoplasm of breast
+C56    ,10,Malignant neoplasm of ovary
+C61    ,10,Malignant neoplasm of prostate
+C82    ,10,Follicular lymphoma
+C83    ,10,Non-follicular lymphoma
+C85    ,10,Other specified and unspecified types of non-Hodgkin lymphoma
+C91    ,10,Lymphoid leukemia
+C92    ,10,Myeloid leukemia
+C93    ,10,Monocytic leukemia
+C94    ,10,Other leukemias of specified cell type
+C95    ,10,Leukemia of unspecified cell type
+D05    ,10,Carcinoma in situ of breast
+E10    ,10,Type 1 diabetes mellitus
+E11    ,10,Type 2 diabetes mellitus
+E13    ,10,Other specified diabetes mellitus
+E830   ,10,Disorders of copper metabolism
+E831   ,10,Disorders of iron metabolism
+G450   ,10,Vertebro-basilar artery syndrome
+G453   ,10,Amaurosis fugax
+G458   ,10,Other transient cerebral ischemic attacks and related syndromes
+G459   ,10,"Transient cerebral ischemic attack, unspecified"
+H341   ,10,Central retinal artery occlusion
+I10    ,10,Essential (primary) hypertension
+I11    ,10,Hypertensive heart disease
+I12    ,10,Hypertensive chronic kidney disease
+I13    ,10,Hypertensive heart and chronic kidney disease
+I15    ,10,Secondary hypertension
+I21    ,10,Acute myocardial infarction
+I22    ,10,Subsequent ST elevation (STEMI) and non-ST elevation (NSTEMI) myocardial infarction
+I600   ,10,Nontraumatic subarachnoid hemorrhage from carotid siphon and bifurcation
+I601   ,10,Nontraumatic subarachnoid hemorrhage from middle cerebral artery
+I602   ,10,Nontraumatic subarachnoid hemorrhage from anterior communicating artery
+I603   ,10,Nontraumatic subarachnoid hemorrhage from posterior communicating artery
+I604   ,10,Nontraumatic subarachnoid hemorrhage from basilar artery
+I605   ,10,Nontraumatic subarachnoid hemorrhage from vertebral artery
+I606   ,10,Nontraumatic subarachnoid hemorrhage from other intracranial arteries
+I607   ,10,Nontraumatic subarachnoid hemorrhage from unspecified intracranial artery
+I609   ,10,"Nontraumatic subarachnoid hemorrhage, unspecified"
+I61    ,10,Nontraumatic intracerebral hemorrhage
+I62    ,10,Other and unspecified nontraumatic intracranial hemorrhage
+I630   ,10,Cerebral infarction due to thrombosis of precerebral arteries
+I631   ,10,Cerebral infarction due to embolism of precerebral arteries
+I632   ,10,Cerebral infarction due to unspecified occlusion or stenosis of precerebral arteries
+I633   ,10,Cerebral infarction due to thrombosis of cerebral arteries
+I634   ,10,Cerebral infarction due to embolism of cerebral arteries
+I635   ,10,Cerebral infarction due to unspecified occlusion or stenosis of cerebral arteries
+I638   ,10,Other cerebral infarction
+I639   ,10,"Cerebral infarction, unspecified"
+I700   ,10,Atherosclerosis of aorta
+I702   ,10,Atherosclerosis of native arteries of the extremities
+I708   ,10,Atherosclerosis of other arteries
+I709   ,10,Other and unspecified atherosclerosis
+I731   ,10,Thromboangiitis obliterans [Buerger's disease]
+I738   ,10,Other specified peripheral vascular diseases
+I739   ,10,"Peripheral vascular disease, unspecified"
+I85    ,10,Esophageal varices
+K551   ,10,Chronic vascular disorders of intestine
+K70    ,10,Alcoholic liver disease
+K713   ,10,Toxic liver disease with chronic persistent hepatitis
+K717   ,10,Toxic liver disease with fibrosis and cirrhosis of liver
+K721   ,10,Chronic hepatic failure
+K729   ,10,"Hepatic failure, unspecified"
+K74    ,10,Fibrosis and cirrhosis of liver
+K753   ,10,"Granulomatous hepatitis, not elsewhere classified"
+K754   ,10,Autoimmune hepatitis
+K758   ,10,Other specified inflammatory liver diseases
+K759   ,10,"Inflammatory liver disease, unspecified"
+K76    ,10,Other diseases of liver
+N08    ,10,Glomerular disorders in diseases classified elsewhere
+N18    ,10,Chronic kidney disease (CKD)
+N19    ,10,Unspecified kidney failure
+N200   ,10,Calculus of kidney
+N201   ,10,Calculus of ureter
+N202   ,10,Calculus of kidney with calculus of ureter
+N210   ,10,Calculus in bladder
+R160   ,10,"Hepatomegaly, not elsewhere classified"
+R162   ,10,"Hepatomegaly with splenomegaly, not elsewhere classified"
+R17    ,10,Unspecified jaundice
+R18    ,10,Ascites
+T822   ,10,Mechanical complication of coronary artery bypass graft and biological heart valve graft
+Z225   ,10,Carrier of viral hepatitis
+Z955    ,10,Presence of cardiac and vascular implants and grafts

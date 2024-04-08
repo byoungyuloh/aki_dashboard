@@ -26,7 +26,11 @@ const PatientInfo = ({ patientInfo, onInfoChange }) => {
                       {key === '키' ? 'Cm' : 'Kg'}
                     </InputAdornment>
                   ) : null,
+                  inputProps: { 
+                    style: { textAlign: 'center' },
+                  },
                 }}
+                sx={{ minWidth: 100 }}
               />
             </Box>
           </ListItem>

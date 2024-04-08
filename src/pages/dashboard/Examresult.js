@@ -9,7 +9,7 @@ const Examresult = ({ examResult, onInfoChange }) => {
   return (
     <Grid container spacing={1} justifyContent="center" alignItems="center">
       {Object.entries(examResult).map(([label, value]) => (
-        <Grid item xs={12} sm={6} md={3} lg={3} key={label} mt={1}>
+        <Grid item xs={12} sm={4} md={3} lg={3} key={label} mt={1}>
           <ListItem>
             <Box textAlign="center" width="100%">
               <TextField
@@ -20,6 +20,8 @@ const Examresult = ({ examResult, onInfoChange }) => {
                 type="text"
                 InputLabelProps={{ shrink: true }}
                 fullWidth
+                inputProps={{ style: { textAlign: 'center' } }}
+                sx={{ minWidth: 100 }}
               />
             </Box>
           </ListItem>

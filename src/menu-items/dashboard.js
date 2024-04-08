@@ -15,7 +15,7 @@ const dashboard = {
   children: [
     {
       id: 'dashboard',
-      title: 'Aki Predict Support',
+      title: 'Aki Predict',
       type: 'item',
       url: '/dashboard/default',
       icon: icons.DashboardOutlined,

@@ -28,50 +28,16 @@ import Ioinfo from './Ioinfo';
 import Examresult from './Examresult';
 import Icd9Codes from './Icd9Codes';
 import Icd10Codes from './Icd10Codes';
-import SelectedCodesDisplay from './SelectedCodesDisplay';
 import Selectedicd9 from './Selectedicd9';
 import Selectedicd10 from './Selectedicd10';
 
-// avatar style
-const avatarSX = {
-  width: 36,
-  height: 36,
-  fontSize: '1rem'
-};
 
-// action style
-const actionSX = {
-  mt: 0.75,
-  ml: 1,
-  top: 'auto',
-  right: 'auto',
-  alignSelf: 'flex-start',
-  transform: 'none'
-};
-
-// sales report status
-const status = [
-  {
-    value: 'today',
-    label: 'Today'
-  },
-  {
-    value: 'month',
-    label: 'This Month'
-  },
-  {
-    value: 'year',
-    label: 'This Year'
-  }
-];
 
 
 
 // ==============================|| DASHBOARD - DEFAULT ||============================== //
 
 const DashboardDefault = () => {
-  const [value, setValue] = useState('today');
-  const [slot, setSlot] = useState('week');
   const modalStyle = {
     position: 'absolute',
     top: '25%',
@@ -288,6 +254,8 @@ const DashboardDefault = () => {
     
     const allDiagCodes = [...icd9Codes, ...icd10Codes].map(code => code.variable);
 
+    
+
     setPredictLoading(true);
 
     let api_data = {
@@ -316,17 +284,14 @@ const DashboardDefault = () => {
       api_data[code] = 0;
     });
 
-    const selectedIcd9Codes = selectedIcd9.map(code => code.variable);
-    const selectedIcd10Codes = selectedIcd10.map(code => code.variable);
-    
+    const selectedIcd9Codes = selectedIcd9.map(code => 'diag_' + code.code);
+    const selectedIcd10Codes = selectedIcd10.map(code => 'diag_' + code.code);    
     [selectedIcd9Codes, selectedIcd10Codes].flat().forEach(code => {
       if (allDiagCodes.includes(code)) {
         api_data[code] = 1; // 선택된 진단 코드의 필드를 1로 설정
       }
     });
 
-    console.log(api_data); // 구성된 reqData 확인
-    
 
     try {
       const response = await axios.post('https://amm.kr:443/predict', api_data);
@@ -403,11 +368,11 @@ const DashboardDefault = () => {
 
     const ioinfo = selectedPatient ? {
       '이뇨제 투여량': selectedPatient.furo_amount,
-      '이전 6시간 배뇨량 합계': selectedPatient.sum_before,
+      '배뇨량': selectedPatient.sum_before,
       '기준 이뇨량': selectedPatient.base_output
     } : {
       '이뇨제 투여량': '',
-      '이전 6시간 배뇨량 합계': '',
+      '배뇨량': '',
       '기준 이뇨량': ''
     };
 
