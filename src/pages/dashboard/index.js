@@ -260,10 +260,10 @@ const DashboardDefault = () => {
 
     let api_data = {
       furo_amount: ioInfo['이뇨제 투여량'] || 0,
-      sum_before: ioInfo['이전 6시간 배뇨량 합계'] || 0,
-      patientweight: patientInfo['weight'] || 0,
+      sum_before: ioInfo['배뇨량'] || 0,
+      patientweight: extractNumeric(patientInfo['몸무게']) || 0,
       sex: patientInfo['gender'] === '남성' ? 1 : 0,
-      real_age: patientInfo['age'] || 0,
+      real_age: patientInfo['나이'] || 0,
       albumin: examResult['albumin'] || 0,
       bun: examResult['bun'] || 0,
       calcium: examResult['calcium'] || 0,
@@ -291,11 +291,12 @@ const DashboardDefault = () => {
         api_data[code] = 1; // 선택된 진단 코드의 필드를 1로 설정
       }
     });
-
+    // console.log(patientInfo);
+    // console.log(api_data);
 
     try {
       const response = await axios.post('https://amm.kr:443/predict', api_data);
-      console.log(response);
+      
       let percentage = (response.data.probability * 100).toFixed(2);
       setPredictionResult(`${percentage}%`);
       setVariableImportance(response.data.variable_importance);
