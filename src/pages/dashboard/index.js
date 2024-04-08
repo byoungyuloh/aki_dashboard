@@ -423,9 +423,9 @@ const DashboardDefault = () => {
               <Button size="small" onClick={fillData} color="primary" variant="contained" sx={{mr:2}}>
                   예시 데이터 채우기
               </Button>
-              <Button size="small" onClick={handleModalOpen} color="primary" variant="outlined">
+              {/* <Button size="small" onClick={handleModalOpen} color="primary" variant="outlined">
                   환자선택
-              </Button>
+              </Button> */}
             </Stack>
           </Grid>
         </Grid>
@@ -508,7 +508,7 @@ const DashboardDefault = () => {
       </Grid>
 
       {/* row 3 */}
-      {selectedIcd9.length === 0 && selectedIcd10.length === 0 ? (
+      {/* {selectedIcd9.length === 0 && selectedIcd10.length === 0 ? (
           <>
           <Grid container alignItems="center" justifyContent="center" sx={{mt:5}}>
               <Typography variant="h6" fontWeight="bold" color='#3F4D67'>
@@ -519,7 +519,10 @@ const DashboardDefault = () => {
         )
         :
         (
-          <>
+          
+        )
+      } */}
+      <>
               <Grid item xs={12} md={6} lg={6}>
                 <Grid container alignItems="center" justifyContent="center">
                   <Grid item>
@@ -571,8 +574,6 @@ const DashboardDefault = () => {
                 </Grid>
               </Grid>
           </>
-        )
-      }
       {/* row 4 */}
       {selectedIcd9.length === 0 && selectedIcd10.length === 0 ? (
           <>
