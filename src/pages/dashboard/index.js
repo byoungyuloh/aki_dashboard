@@ -508,7 +508,7 @@ const DashboardDefault = () => {
       </Grid>
 
       {/* row 3 */}
-      {/* {selectedIcd9.length === 0 && selectedIcd10.length === 0 ? (
+      {selectedIcd9.length === 0 && selectedIcd10.length === 0 ? (
           <>
           <Grid container alignItems="center" justifyContent="center" sx={{mt:5}}>
               <Typography variant="h6" fontWeight="bold" color='#3F4D67'>
@@ -519,11 +519,8 @@ const DashboardDefault = () => {
         )
         :
         (
-          
-        )
-      } */}
-      <>
-              <Grid item xs={12} md={6} lg={6}>
+            <>
+            <Grid item xs={12} md={6} lg={6}>
                 <Grid container alignItems="center" justifyContent="center">
                   <Grid item>
                     <Typography variant="h5">예측에 사용할 ICD-9 진단코드 목록</Typography>
@@ -547,6 +544,11 @@ const DashboardDefault = () => {
                   <Selectedicd10 selectedIcd10Codes={selectedIcd10}/>
                 </MainCard>
               </Grid>
+            </>
+        )
+      }
+      <>
+              
               <Grid container alignItems="center" justifyContent="center" mt={3}>
                 <Grid item>
                   {predictionResult ? (
@@ -566,7 +568,7 @@ const DashboardDefault = () => {
                       </Button>
                       {(!selectedPatientId || (selectedIcd9.length === 0 && selectedIcd10.length === 0)) && (
                         <Typography variant="caption" display="block" mt={3}>
-                          필수 입력정보 ( 환자 선택, ICD-9 또는 ICD-10 코드가 누락되었습니다. )
+                          필수 입력정보 ( 환자 기본정보, ICD-9 또는 ICD-10 코드가 누락되었습니다. )
                         </Typography>
                       )}
                     </div>
