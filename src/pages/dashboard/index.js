@@ -22,7 +22,6 @@ import {
 import MainCard from 'components/MainCard';
 
 // assets
-
 import PatientInfo from './PatientInfo';
 import Ioinfo from './Ioinfo';
 import Examresult from './Examresult';
@@ -30,10 +29,6 @@ import Icd9Codes from './Icd9Codes';
 import Icd10Codes from './Icd10Codes';
 import Selectedicd9 from './Selectedicd9';
 import Selectedicd10 from './Selectedicd10';
-
-
-
-
 
 // ==============================|| DASHBOARD - DEFAULT ||============================== //
 
@@ -521,7 +516,7 @@ const DashboardDefault = () => {
         :
         (
             <>
-            <Grid item xs={12} md={6} lg={6}>
+            {/* <Grid item xs={12} md={6} lg={6}>
                 <Grid container alignItems="center" justifyContent="center">
                   <Grid item>
                     <Typography variant="h5">예측에 사용할 ICD-9 진단코드 목록</Typography>
@@ -544,7 +539,7 @@ const DashboardDefault = () => {
                 <MainCard sx={{ mt: 1.75 }}>
                   <Selectedicd10 selectedIcd10Codes={selectedIcd10}/>
                 </MainCard>
-              </Grid>
+              </Grid> */}
             </>
         )
       }
@@ -563,13 +558,13 @@ const DashboardDefault = () => {
                         onClick={onClickPredictButton}
                         color="primary"
                         variant="outlined"
-                        disabled={!selectedPatientId || (selectedIcd9.length === 0 && selectedIcd10.length === 0)}
+                        disabled={!selectedPatientId}
                       >
                         선택한 정보로 예측하기
                       </Button>
-                      {(!selectedPatientId || (selectedIcd9.length === 0 && selectedIcd10.length === 0)) && (
+                      {(!selectedPatientId) && (
                         <Typography variant="caption" display="block" mt={3}>
-                          필수 입력정보 ( 환자 기본정보, ICD-9 또는 ICD-10 코드가 누락되었습니다. )
+                          필수 입력정보 ( 환자 기본정보 또는 검사결과가 누락되었습니다. )
                         </Typography>
                       )}
                     </div>
@@ -578,13 +573,7 @@ const DashboardDefault = () => {
               </Grid>
           </>
       {/* row 4 */}
-      {selectedIcd9.length === 0 && selectedIcd10.length === 0 ? (
-          <>
-          </>
-        )
-        :
-        (
-          <>
+      <>
           {predictLoading && (
                   <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center', marginTop: '3%' }}>
                     <CircularProgress />
@@ -630,8 +619,15 @@ const DashboardDefault = () => {
             </Grid>
 
           </>
+        {/* {selectedIcd9.length === 0 && selectedIcd10.length === 0 ? (
+          <>
+          </>
         )
-      }
+        :
+        (
+          
+        )
+      } */}
       
     </Grid>
   );

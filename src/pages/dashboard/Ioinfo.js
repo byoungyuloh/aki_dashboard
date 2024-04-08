@@ -9,7 +9,7 @@ const Ioinfo = ({ ioInfo, onInfoChange }) => {
   return (
     <Grid container spacing={2} justifyContent="center" alignItems="center">
       {Object.entries(ioInfo).map(([label, value]) => (
-        <Grid item xs={12} sm={6} md={4} lg={4} key={label}>
+        <Grid item xs={12} sm={6} md={4} lg={4} xl={4} key={label}>
           <ListItem>
             <Box textAlign="center" width="100%" display="flex" justifyContent="center">
               <Box width={200}>

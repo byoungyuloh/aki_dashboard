@@ -9,7 +9,7 @@ const PatientInfo = ({ patientInfo, onInfoChange }) => {
   return (
     <Grid container spacing={2} justifyContent="center" alignItems="center">
       {Object.entries(patientInfo).map(([key, value]) => (
-        <Grid item xs={12} sm={6} md={2.4} lg={2.4} key={key}>
+        <Grid item xs={12} sm={6} md={4} lg={3} xl={2} key={key}>
           <ListItem>
             <Box textAlign="center" width="100%">
               <Typography variant="subtitle1" component="div" style={{ fontWeight: 'bold' }}>
@@ -30,7 +30,7 @@ const PatientInfo = ({ patientInfo, onInfoChange }) => {
                     style: { textAlign: 'center' },
                   },
                 }}
-                sx={{ minWidth: 100 }}
+                sx={{ minWidth: 100, maxWidth: 200 }}
               />
             </Box>
           </ListItem>
