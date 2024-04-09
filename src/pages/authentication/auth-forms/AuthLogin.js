@@ -47,7 +47,7 @@ const AuthLogin = () => {
   const navigate = useNavigate();
 
   const onClickLogin = () => {
-    navigate('/dashboard');
+    navigate('/aki_predict');
   }
 
   return (

@@ -17,7 +17,7 @@ const dashboard = {
       id: 'dashboard',
       title: 'Aki Predict',
       type: 'item',
-      url: '/dashboard/default',
+      url: '/aki_predict',
       icon: icons.DashboardOutlined,
       breadcrumbs: false
     },

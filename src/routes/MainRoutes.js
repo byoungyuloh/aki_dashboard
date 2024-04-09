@@ -24,7 +24,7 @@ const MainRoutes = {
   element: <MainLayout />,
   children: [
     {
-      path: '/dashboard',
+      path: '/aki_predict',
       element: <DashboardDefault />
     },
     {
