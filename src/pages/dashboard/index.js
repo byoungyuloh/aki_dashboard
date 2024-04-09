@@ -365,11 +365,11 @@ const DashboardDefault = () => {
     const ioinfo = selectedPatient ? {
       '이뇨제 투여량': selectedPatient.furo_amount,
       '배뇨량': selectedPatient.sum_before,
-      '기준 이뇨량': selectedPatient.base_output
+      '기준 배뇨량': selectedPatient.base_output
     } : {
       '이뇨제 투여량': '',
       '배뇨량': '',
-      '기준 이뇨량': ''
+      '기준 배뇨량': ''
     };
 
     if (selectedPatient) {

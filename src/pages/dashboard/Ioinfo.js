@@ -16,7 +16,7 @@ const Ioinfo = ({ ioInfo, onInfoChange }) => {
                 <Typography variant="subtitle1" component="div" style={{ fontWeight: 'bold' }}>
                   {label}
                 </Typography>
-                {label === '기준 이뇨량' ? (
+                {label === '기준 배뇨량' ? (
                   <Typography variant="body1" style={{ marginTop: 5, textAlign: 'center' }}>
                     {value} ml
                   </Typography>
